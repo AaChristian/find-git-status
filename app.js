@@ -4,17 +4,11 @@ const glob = require("glob");
 const exec = require('child_process').exec;
 const async = require('async');
 const output = require('./output');
-
-console.log("Searching " + process.env.DIR_SEARCH);
-
-// console.log(__dirname);
+const directories = require('./config');
 
 const isProjectCheck = [".env", "readme.md", "README.md", "package.json", "package-lock.json", "composer.json", "composer.lock"];
 let ignoreDirs = ["**/node_modules/**", "**/vendor/**"];
 
-// const repositories = [];
-// const projectButNotRepo = [];
-// const outdatedRepos = [];
 
 let options = {
     ignore: ignoreDirs,
@@ -22,27 +16,45 @@ let options = {
 }
 const start = async () => {
     console.time("app");
-    // Find all dirs where .git dir exist
-    const repositories = await findAllGitRepos();
+    let repositories = [];
+    let projectButNotRepo = [];
+    let outdatedRepos = [];
+    let reposWithoutRemote = [];
 
-    // Add repos to ignore list
-    await addReposToIgnoreList(repositories);
+    for (let i = 0; i < directories.length; i++) {
+        const directory = directories[i];
+        console.log("Searching " + directory);
 
-    // Find protential projects that arent git repositories
-    const projectButNotRepo = await findProjectsNotRepos(repositories);
+        // Find all dirs where .git dir exist
+        const reposInDir = await findAllGitRepos(directory);
 
-    // Check git status on repos
-    const outdatedRepos = await findOutdatedRepos(repositories);
+        // Add repos to ignore list
+        await addReposToIgnoreList(reposInDir);
+
+        // Find protential projects that arent git repositories
+        const projectButNotRepoInDir = await findProjectsNotRepos(reposInDir, directory);
+
+        // Check git status on repos
+        const outdatedReposInDIr = await findOutdatedRepos(reposInDir);
+
+        // Find repositores without remote
+        const reposWithoutRemoteInDir = await findReposWithoutRemote(reposInDir);
+
+        repositories = [...repositories, ...reposInDir];
+        projectButNotRepo = [...projectButNotRepo, ...projectButNotRepoInDir];
+        outdatedRepos = [...outdatedRepos, ...outdatedReposInDIr];
+        reposWithoutRemote = [...reposWithoutRemote, ...reposWithoutRemoteInDir];
+    }
 
     // Print all info
-    output.printInfo(repositories, projectButNotRepo, outdatedRepos);
+    output.printInfo(repositories, projectButNotRepo, outdatedRepos, reposWithoutRemote);
     console.timeEnd("app");
 }
 
-const findAllGitRepos = () => {
+const findAllGitRepos = (directory) => {
     return new Promise((resolve, reject) => {
         const repositories = [];
-        glob(process.env.DIR_SEARCH + '/**/.git', options, (err, res) => {
+        glob(directory + '/**/.git', options, (err, res) => {
             if (err) {
                 console.log('Error', err);
             } else {
@@ -65,10 +77,10 @@ const findAllGitRepos = () => {
     });
 }
 
-const findProjectsNotRepos = (repositories) => {
+const findProjectsNotRepos = (repositories, directory) => {
     return new Promise((resolve, reject) => {
         const projectButNotRepo = [];
-        const projectCheckPattern = process.env.DIR_SEARCH + "/**/*(" + isProjectCheck.join('|') + ")";
+        const projectCheckPattern = directory+ "/**/*(" + isProjectCheck.join('|') + ")";
 
         glob(projectCheckPattern, options, (err, res) => {
             if (err) {
@@ -139,21 +151,25 @@ const findOutdatedRepos = async (repositories) => {
     });
 }
 
-// const checkIfGitRepo = (path) => {
-//     const options = {
-//         cwd: path
-//     }
-//     execute("git rev-parse --is-inside-work-tree", options);
-// }
+const findReposWithoutRemote = async (repositories) => {
 
-// const execute = (command, options = {}) => {
-//     exec(command, options, (error, stdout, stderr) => {
-//         console.log('stdout: ' + stdout);
-//         console.log('stderr: ' + stderr);
-//         if (error !== null) {
-//             console.log('exec error: ' + error);
-//         } else {
-//             callback(stdout)
-//         }
-//     });
-// }
+    let reposWithoutRemote = [];
+
+    const findGitRemote = (repo, callback) => {
+        exec("git config --get remote.origin.url", {cwd: repo.path}, (error, stdout, stderr) => {
+            if (stdout === "") {
+                reposWithoutRemote.push({
+                    name: repo.name,
+                    path: repo.path
+                });
+            }
+            callback();
+        });
+    }
+
+    return new Promise((resolve, reject) => {
+        async.map(repositories, findGitRemote, () => {
+            resolve(reposWithoutRemote);
+        });
+    });
+}

@@ -1,24 +1,28 @@
-const printInfo = (repositories, projectButNotRepo, outdatedRepos) => {
+const printInfo = (repositories, projectButNotRepo, outdatedRepos, reposWithoutRemote) => {
 
     // Print general info
-    printInfoSmall(repositories, projectButNotRepo, outdatedRepos);
+    printInfoSmall(repositories, projectButNotRepo, outdatedRepos, reposWithoutRemote);
 
     // Print all repos
     printRepos(repositories);
     // Print repos that have changes not commited
     printChangedRepos(outdatedRepos);
+    // Print repos that has no remote
+    printReposWithoutRemote(reposWithoutRemote);
     // Print projects that are not repos
     printProjectsNotRepos(projectButNotRepo);
 }
 
-const printInfoSmall = (repositories, projectButNotRepo, outdatedRepos) => {
-    console.log("\nProjects found:\t\t" + (repositories.length + projectButNotRepo.length));
-    console.log("Repositories found:\t" + repositories.length);
-    console.log("Repositories outdated:\t" + outdatedRepos.length);
-    console.log("Projects but not repos:\t" + projectButNotRepo.length + "\n");
+const printInfoSmall = (repositories, projectButNotRepo, outdatedRepos, reposWithoutRemote) => {
+    console.log("\nProjects found:\t\t\t" + (repositories.length + projectButNotRepo.length));
+    console.log("Repositories found:\t\t" + repositories.length);
+    console.log("Repositories outdated:\t\t" + outdatedRepos.length);
+    console.log("Repositories without remote:\t" + reposWithoutRemote.length);
+    console.log("Projects but not repos:\t\t" + projectButNotRepo.length + "\n");
 }
 
 const printRepos = (repositories) => {
+    if (repositories.length === 0) { return; }
 
     const titleText = "Projects with git repositories";
     printTitle(titleText, repositories.length);
@@ -37,6 +41,7 @@ const printRepos = (repositories) => {
 }
 
 const printProjectsNotRepos = (projectButNotRepo) => {
+    if (projectButNotRepo.length === 0) { return; }
 
     const titleText = "Projects without git repositories";
     printTitle(titleText, projectButNotRepo.length);
@@ -54,7 +59,27 @@ const printProjectsNotRepos = (projectButNotRepo) => {
     console.log("");
 }
 
+const printReposWithoutRemote = (reposWithoutRemote) => {
+    if (reposWithoutRemote.length === 0) { return; }
+
+    const titleText = "Repositories with no remote";
+    printTitle(titleText, reposWithoutRemote.length);
+
+    const longestValue = findLongestValue(reposWithoutRemote, "name");
+    let tab = tabs("Project", longestValue);
+
+    console.log(`Project${tab}| Path`);
+    console.log('-'.repeat(process.stdout.columns - 1));
+
+    reposWithoutRemote.map(repo => {
+        const tab = tabs(repo.name, longestValue);
+        console.log(`${repo.name}${tab}| ${repo.path}`);
+    });
+    console.log("");
+}
+
 const printChangedRepos = (outdatedRepos) => {
+    if (outdatedRepos.length === 0) { return; }
 
     const titleText = "Repositories with uncommited changes";
     printTitle(titleText, outdatedRepos.length);
