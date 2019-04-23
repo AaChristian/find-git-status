@@ -3,22 +3,8 @@ const exec = require("child_process").exec;
 const async = require("async");
 const output = require("./output");
 const directories = require("../../config");
-
-const isProjectCheck = [
-  ".env",
-  "readme.md",
-  "README.md",
-  "package.json",
-  "package-lock.json",
-  "composer.json",
-  "composer.lock"
-];
-let ignoreDirs = ["**/node_modules/**", "**/vendor/**"];
-
-let options = {
-  ignore: ignoreDirs,
-  dot: true
-};
+const { isProjectCheck } = require("../globalConfig");
+let { ignoreDirs, globOptions: options } = require("../globalConfig");
 
 const gitStatus = () => {
   return new Promise(async (resolve, reject) => {
@@ -62,6 +48,7 @@ const gitStatus = () => {
       outdatedRepos,
       reposWithoutRemote
     );
+
     resolve();
   });
 };
@@ -133,13 +120,18 @@ const findProjectsNotRepos = (repositories, directory) => {
   });
 };
 
+/**
+ * Add a list of repositories/directories to the ignore list
+ * @param {Array<string>} repositories The repsitory directories to add
+ * @returns {void}
+ */
 const addReposToIgnoreList = repositories => {
   const ignoredRepos = repositories.map(value => {
     return "**/" + value + "/**";
   });
+  // Update the ignore directories list
   ignoreDirs = [...ignoreDirs, ...ignoredRepos];
   options.ignore = ignoreDirs;
-  // console.log(options);
 };
 
 const findOutdatedRepos = async repositories => {
