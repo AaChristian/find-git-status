@@ -1,5 +1,5 @@
 require("dotenv").config();
-const gitStatus = require("./modules/gitStatus.js");
+const { gitStatus } = require("./modules/findGitStatus");
 
 const start = async () => {
   console.time("app");
