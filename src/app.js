@@ -4,7 +4,7 @@ const glob = require("glob");
 const exec = require("child_process").exec;
 const async = require("async");
 const output = require("./output");
-const directories = require("./config");
+const directories = require("../config");
 
 const isProjectCheck = [
   ".env",
