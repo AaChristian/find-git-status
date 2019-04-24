@@ -1,31 +1,55 @@
-const { exec } = require("child_process");
-const async = require("async");
+const { exec } = require("promisify-child-process");
 
+/**
+ * Check the git status of a list of repositories
+ * @param {Array<object>} repositories The repositories to check
+ * @returns {Promise<Array<object>>} The outdated repositories, with name, path and changes
+ */
 const findOutdatedRepos = async repositories => {
-  let outdatedRepos = [];
+  /**
+   * Check git status for a repository
+   * @param {object} repo The repo to check
+   * @returns {Promise<object | null} Returns null if no repo found
+   */
+  const checkGitStatus = repo => {
+    return new Promise(async (resolve, reject) => {
+      let outDatedRepo = null;
 
-  const checkGitStatus = (repo, callback) => {
-    exec(
-      "git status --porcelain",
-      { cwd: repo.path },
-      (error, stdout, stderr) => {
-        if (stdout !== "") {
-          const changes = stdout.split("\n").filter(change => {
-            return change !== "";
-          });
-          outdatedRepos.push({
-            name: repo.name,
-            path: repo.path,
-            changes: changes
-          });
-        }
-        callback();
+      // Check status
+      const { stdout } = await exec("git status --porcelain", {
+        cwd: repo.path
+      });
+
+      // If the output was not empty
+      if (stdout !== "") {
+        const changes = stdout.split("\n").filter(change => {
+          return change !== "";
+        });
+
+        outDatedRepo = {
+          name: repo.name,
+          path: repo.path,
+          changes: changes
+        };
       }
-    );
+
+      // Resolve promise
+      resolve(outDatedRepo);
+    });
   };
 
   return new Promise((resolve, reject) => {
-    async.map(repositories, checkGitStatus, () => {
+    Promise.all(repositories.map(repo => checkGitStatus(repo))).then(result => {
+      let outdatedRepos = [];
+
+      // For all results from the promises, only push to outdatedRepos arry
+      // if the result is not null, ie if the repo is outdated.
+      for (let i = 0; i < result.length; i++) {
+        if (result[i] !== null) {
+          outdatedRepos.push(result[i]);
+        }
+      }
+
       resolve(outdatedRepos);
     });
   });

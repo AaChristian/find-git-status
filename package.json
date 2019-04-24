@@ -15,7 +15,8 @@
     "async": "^2.6.1",
     "dotenv": "^6.2.0",
     "easy-table": "^1.1.1",
-    "glob": "^7.1.3"
+    "glob": "^7.1.3",
+    "promisify-child-process": "^3.1.0"
   },
   "devDependencies": {
     "jest": "^24.7.1",
