@@ -20,6 +20,7 @@ jobs:
           key: node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
       - run: echo "Running tests"
       - run: npm run test-coverage
+      - run: bash <(curl -s https://codecov.io/bash)
 workflows:
   version: 2
   run_tests:
