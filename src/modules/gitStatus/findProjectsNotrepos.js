@@ -1,33 +1,48 @@
 const glob = require("glob");
-const { isProjectCheck, globOptions: options } = require("../../globalConfig");
+const { isProjectCheck, globOptions } = require("../../globalConfig");
 
+/**
+ * Find all potential projects that are not git repositories.
+ * @param {Array<object>} repositories The repositories previously found
+ * @param {string} directory The directory to search
+ * @returns {Promise<object>} The projects
+ */
 const findProjectsNotRepos = (repositories, directory) => {
   return new Promise((resolve, reject) => {
     const projectButNotRepo = [];
+
+    // The glob search pattern
     const projectCheckPattern =
       directory + "/**/*(" + isProjectCheck.join("|") + ")";
 
-    glob(projectCheckPattern, options, (err, res) => {
+    glob(projectCheckPattern, globOptions, (err, res) => {
       if (err) {
         console.log("Error", err);
       } else {
         // Sort ascending by length of path
         res.sort((a, b) => a.length - b.length);
-        // console.log(res);
+
         res.forEach(path => {
+          // Split the path into an array.
           const pathArray = path.split("/");
+
+          // Get the name of the current directory
           const repo = pathArray.slice(-2)[0];
-          // console.log(projectButNotRepo);
-          // console.log(pathArray);
-          // console.log(repo);
+
+          // Is a section of the path already marked as a project?
           let repoExistsInProjectArr = projectButNotRepo.some(el =>
             pathArray.includes(el.name)
           );
+
+          // Is a section of the path already marked as a git repository?
           let repoExistsInRepoArr = repositories.some(el =>
             pathArray.includes(el.name)
           );
-          // console.log(repoExistsInProjectArr);
-          // console.log(repoExistsInRepoArr);
+
+          /**
+           * If the current directory is not already marked as a
+           * project or git repo, add it as a object to the project array.
+           */
           if (!repoExistsInRepoArr && !repoExistsInProjectArr) {
             projectButNotRepo.push({
               name: repo,
@@ -35,7 +50,7 @@ const findProjectsNotRepos = (repositories, directory) => {
             });
           }
         });
-        // console.log("projectButNotRepo: ", projectButNotRepo);
+
         resolve(projectButNotRepo);
       }
     });
