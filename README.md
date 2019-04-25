@@ -1,12 +1,12 @@
-[![CircleCI](https://circleci.com/gh/Gullo89/find-git-status.svg?style=shield)](https://circleci.com/gh/Gullo89/find-git-status)
-[![codecov](https://codecov.io/gh/Gullo89/find-git-status/branch/master/graph/badge.svg?label=coverage)](https://codecov.io/gh/Gullo89/find-git-status)
+[![CircleCI](https://img.shields.io/circleci/project/github/Gullo89/find-git-status.svg)](https://circleci.com/gh/Gullo89/find-git-status)
+[![codecov](https://img.shields.io/codecov/c/github/Gullo89/find-git-status/master.svg?label=coverage)](https://codecov.io/gh/Gullo89/find-git-status)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
 # Find Git Status
 
 Search directory to find all git repositories, repositories with uncommited changes, reposiroties without remote and potential projects that is not a git repository.
 
-# Installing
+## Installing
 
 ```
 git clone URL
@@ -17,7 +17,7 @@ cp config.example.js config.js
 
 Edit .env and config.js
 
-# Running
+## Running
 
 ```
 npm run start
