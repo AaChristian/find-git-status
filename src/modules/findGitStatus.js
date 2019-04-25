@@ -1,8 +1,8 @@
-const glob = require("glob");
+const fs = require("fs");
 const exec = require("child_process").exec;
-const async = require("async");
+const path = require("path");
 const output = require("./output");
-const directories = require("../../config");
+// const directories = require("../../config");
 const { isProjectCheck } = require("../globalConfig");
 let { ignoreDirs, globOptions: options } = require("../globalConfig");
 const {
@@ -32,6 +32,10 @@ const gitStatus = () => {
     let projectButNotRepo = [];
     let outdatedRepos = [];
     let reposWithoutRemote = [];
+
+    const { directories } = JSON.parse(
+      fs.readFileSync(path.resolve(__dirname, "../../config.json"), "utf-8")
+    );
 
     for (let i = 0; i < directories.length; i++) {
       const directory = directories[i];
