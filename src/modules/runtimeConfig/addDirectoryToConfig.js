@@ -1,4 +1,5 @@
 const fs = require("fs");
+const { createConfigIfNotExist } = require("../../helpers");
 
 /**
  * Add a directory path to the config
@@ -6,13 +7,16 @@ const fs = require("fs");
  * @param {string} configPath The path to the config file
  * @returns {Promise<>}
  */
-const addDirectoryToConfig = async (directory, configPath) => {
-  return new Promise((resolve, reject) => {
+const addDirectoryToConfig = (directory, configPath) => {
+  return new Promise(async (resolve, reject) => {
     // If the directory is not specified
     if (directory == "" || directory.slice(0, 1) === "-") {
       reject("Please specify a directory. Example --config-add C:/path/to/dir");
       return;
     }
+
+    // If the config file does not exists, create it
+    await createConfigIfNotExist(configPath);
 
     // TOOD: Allow both types of slashes in configPath
 

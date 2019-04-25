@@ -3,9 +3,24 @@ const fs = require("fs");
 const {
   addDirectoryToConfig
 } = require("../../../../../src/modules/runtimeConfig");
+const { createConfigIfNotExist } = require("../../../../../src/helpers");
+
+jest.mock("../../../../../src/helpers");
+
+let config, configPath, dirToAdd;
 
 beforeEach(() => {
-  mockFs.mock();
+  // Set default variables
+  config = { directories: [] };
+  configPath = "config.json";
+  dirToAdd = "C:/test/path";
+
+  // Mock createConfig function resolve
+  createConfigIfNotExist.mockResolvedValue();
+
+  mockFs.mock({
+    [configPath]: JSON.stringify(config, null, 2)
+  });
 });
 
 afterEach(() => {
@@ -14,12 +29,7 @@ afterEach(() => {
 
 describe("addDirectoryToConfig", () => {
   test("should write path to file", () => {
-    const config = { directories: [] };
-    const configPath = "config.json";
-    const dirToAdd = "C:/test/path";
-    mockFs.mock({
-      [configPath]: JSON.stringify(config, null, 2)
-    });
+    dirToAdd = "C:/test/path";
 
     expect.assertions(1);
     return addDirectoryToConfig(dirToAdd, configPath).then(() => {
@@ -29,13 +39,8 @@ describe("addDirectoryToConfig", () => {
     });
   });
 
-  test("should throw error if path is an empty string", () => {
-    const config = { directories: [] };
-    const configPath = "config.json";
-    const dirToAdd = "";
-    mockFs.mock({
-      [configPath]: JSON.stringify(config, null, 2)
-    });
+  test("should throw error if directory is an empty string", () => {
+    dirToAdd = "";
 
     expect.assertions(1);
     return addDirectoryToConfig(dirToAdd, configPath).catch(error => {
@@ -43,17 +48,19 @@ describe("addDirectoryToConfig", () => {
     });
   });
 
-  test("should throw error if path starts with --", () => {
-    const config = { directories: [] };
-    const configPath = "config.json";
-    const dirToAdd = "--nextArg";
-    mockFs.mock({
-      [configPath]: JSON.stringify(config, null, 2)
-    });
+  test("should throw error if directory starts with --", () => {
+    dirToAdd = "--nextArg";
 
     expect.assertions(1);
     return addDirectoryToConfig(dirToAdd, configPath).catch(error => {
       expect(error).toMatch("Please specify a directory");
+    });
+  });
+
+  test("should call createConfigIfNotExist", () => {
+    expect.assertions(1);
+    return addDirectoryToConfig(dirToAdd, configPath).then(() => {
+      expect(createConfigIfNotExist.mock.calls.length).toBe(2);
     });
   });
 });
