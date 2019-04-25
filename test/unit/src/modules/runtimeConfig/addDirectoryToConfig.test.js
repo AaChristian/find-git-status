@@ -63,4 +63,18 @@ describe("addDirectoryToConfig", () => {
       expect(createConfigIfNotExist.mock.calls.length).toBe(2);
     });
   });
+
+  test("should not add directory to config if it already exists", () => {
+    config = { directories: ["C:/test/path"] };
+    dirToAdd = "C:/test/path";
+
+    mockFs.mock({
+      [configPath]: JSON.stringify(config, null, 2)
+    });
+
+    expect.assertions(1);
+    return addDirectoryToConfig(dirToAdd, configPath).catch(error => {
+      expect(error).toMatch("Directory already exist");
+    });
+  });
 });

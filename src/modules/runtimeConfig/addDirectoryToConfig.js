@@ -15,7 +15,7 @@ const addDirectoryToConfig = (directory, configPath) => {
       return;
     }
 
-    // If the config file does not exists, create it
+    // Check if config file exists, if it does not then create it
     await createConfigIfNotExist(configPath);
 
     // TOOD: Allow both types of slashes in configPath
@@ -23,7 +23,12 @@ const addDirectoryToConfig = (directory, configPath) => {
     // Read current config from file
     let config = JSON.parse(fs.readFileSync(configPath), "utf-8");
 
-    // TODO: Check if the directory already exists, if it does reject
+    // If the directory already exists in config, reject with message
+    if (config.directories.includes(directory)) {
+      reject("Directory already exists in config");
+      return;
+    }
+
     // Push the new directory to the config
     config.directories.push(directory);
 
