@@ -34,7 +34,7 @@ describe("findOutdatedRepos", () => {
     });
   });
 
-  test("should return empty array if none of the repositories is outdated", () => {
+  test("should return array with one element if one of the repositories is outdated", () => {
     const repositories = [
       { name: "proj", path: "testDir/proj" },
       { name: "proj2", path: "testDir/dir2/proj2" }
