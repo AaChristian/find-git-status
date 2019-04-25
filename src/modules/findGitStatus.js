@@ -1,30 +1,13 @@
 const fs = require("fs");
-const exec = require("child_process").exec;
 const path = require("path");
 const output = require("./output");
-// const directories = require("../../config");
-const { isProjectCheck } = require("../globalConfig");
-let { ignoreDirs, globOptions: options } = require("../globalConfig");
 const {
   findAllGitRepos,
   findOutdatedRepos,
   findProjectsNotRepos,
-  findReposWithoutRemote
+  findReposWithoutRemote,
+  addReposToIgnoreList
 } = require("./gitStatus");
-
-/**
- * Add a list of repositories/directories to the ignore list
- * @param {Array<string>} repositories The repsitory directories to add
- * @returns {void}
- */
-const addReposToIgnoreList = repositories => {
-  const ignoredRepos = repositories.map(value => {
-    return "**/" + value + "/**";
-  });
-  // Update the ignore directories list
-  ignoreDirs = [...ignoreDirs, ...ignoredRepos];
-  options.ignore = ignoreDirs;
-};
 
 const gitStatus = () => {
   return new Promise(async (resolve, reject) => {
@@ -43,6 +26,7 @@ const gitStatus = () => {
 
       // Find all dirs where .git dir exist
       const reposInDir = await findAllGitRepos(directory);
+      console.log(reposInDir);
 
       // Add repos to ignore list
       await addReposToIgnoreList(reposInDir);
@@ -77,4 +61,4 @@ const gitStatus = () => {
   });
 };
 
-module.exports = { gitStatus, addReposToIgnoreList };
+module.exports = gitStatus;

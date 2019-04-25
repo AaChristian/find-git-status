@@ -1,5 +1,5 @@
 require("dotenv").config();
-const { gitStatus } = require("./modules/findGitStatus");
+const gitStatus = require("./modules/findGitStatus");
 const {
   isFirstRealArgumentSet,
   processArguments

@@ -1,5 +1,5 @@
 const start = require("../../../src/app");
-const findGitStatus = require("../../../src/modules/findGitStatus");
+const gitStatus = require("../../../src/modules/findGitStatus");
 const runtimeConfig = require(".../../../src/modules/manageArguments");
 
 jest.mock("../../../src/modules/findGitStatus");
@@ -7,7 +7,7 @@ jest.mock("../../../src/modules/manageArguments");
 
 beforeEach(() => {
   // Reset mock so that mockResolvedValueOnce works correctly
-  findGitStatus.gitStatus.mockReset();
+  gitStatus.mockReset();
   runtimeConfig.isFirstRealArgumentSet.mockReset();
   runtimeConfig.processArguments.mockReset();
 });
@@ -17,7 +17,7 @@ describe("start", () => {
     process.argv = ["cmd", "test"];
 
     runtimeConfig.isFirstRealArgumentSet.mockReturnValue(false);
-    findGitStatus.gitStatus.mockResolvedValue();
+    gitStatus.mockResolvedValue();
 
     return start().then(() => {
       expect(runtimeConfig.isFirstRealArgumentSet.mock.calls.length).toBe(2);
@@ -28,10 +28,10 @@ describe("start", () => {
     process.argv = ["cmd", "test", ""];
 
     runtimeConfig.isFirstRealArgumentSet.mockReturnValue(false);
-    findGitStatus.gitStatus.mockResolvedValue();
+    gitStatus.mockResolvedValue();
 
     return start().then(() => {
-      expect(findGitStatus.gitStatus.mock.calls.length).toBe(1);
+      expect(gitStatus.mock.calls.length).toBe(1);
       expect(runtimeConfig.processArguments.mock.calls.length).toBe(0);
     });
   });
@@ -43,7 +43,7 @@ describe("start", () => {
     runtimeConfig.processArguments.mockReturnValue();
 
     return start().then(() => {
-      expect(findGitStatus.gitStatus.mock.calls.length).toBe(0);
+      expect(gitStatus.mock.calls.length).toBe(0);
       expect(runtimeConfig.processArguments.mock.calls.length).toBe(1);
     });
   });
