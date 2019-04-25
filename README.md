@@ -1,5 +1,6 @@
 [![CircleCI](https://circleci.com/gh/Gullo89/find-git-status.svg?style=shield)](https://circleci.com/gh/Gullo89/find-git-status)
 [![codecov](https://codecov.io/gh/Gullo89/find-git-status/branch/master/graph/badge.svg?label=coverage)](https://codecov.io/gh/Gullo89/find-git-status)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
 # Find Git Status
 
@@ -19,5 +20,5 @@ Edit .env and config.js
 # Running
 
 ```
-node app
+npm run start
 ```
