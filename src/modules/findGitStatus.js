@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const output = require("./output");
+const printReport = require("./printReport");
 const {
   findAllGitRepos,
   findOutdatedRepos,
@@ -49,8 +49,8 @@ const gitStatus = () => {
       reposWithoutRemote = [...reposWithoutRemote, ...reposWithoutRemoteInDir];
     }
 
-    // Print all info
-    output.printInfo(
+    // Print report of findings
+    printReport(
       repositories,
       projectButNotRepo,
       outdatedRepos,

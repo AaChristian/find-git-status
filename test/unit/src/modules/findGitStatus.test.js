@@ -1,10 +1,10 @@
 const gitStatus = require("../../../../src/modules/findGitStatus");
 const gitStatusModules = require("../../../../src/modules/gitStatus");
-const output = require("../../../../src/modules/output");
+const printReport = require("../../../../src/modules/printReport");
 const fs = require("fs");
 
 jest.mock("../../../../src/modules/gitStatus");
-jest.mock("../../../../src/modules/output");
+jest.mock("../../../../src/modules/printReport");
 jest.mock("fs");
 
 beforeEach(() => {
@@ -14,7 +14,7 @@ beforeEach(() => {
   gitStatusModules.findOutdatedRepos.mockResolvedValue([]);
   gitStatusModules.findReposWithoutRemote.mockResolvedValue([]);
 
-  output.printInfo.mockReturnValue();
+  printReport.mockReturnValue();
 });
 
 afterEach(() => {
@@ -78,14 +78,14 @@ describe("gitStatus", () => {
     });
   });
 
-  test("should call printInfo", () => {
+  test("should call printReport", () => {
     fs.readFileSync = jest
       .fn()
       .mockReturnValue(JSON.stringify({ directories: ["testDir1"] }, null, 2));
 
     expect.assertions(1);
     return gitStatus().then(() => {
-      expect(output.printInfo.mock.calls.length).toBe(1);
+      expect(printReport.mock.calls.length).toBe(1);
     });
   });
 });

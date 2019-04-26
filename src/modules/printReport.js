@@ -4,7 +4,7 @@ const {
   printChangedRepos,
   printProjectsNotRepos,
   printReposWithoutRemote
-} = require("./gitStatus/output");
+} = require("./gitStatus/report");
 
 const printInfo = (
   repositories,
@@ -31,6 +31,4 @@ const printInfo = (
 };
 
 // TODO: Only export the constant instead of object
-module.exports = {
-  printInfo
-};
+module.exports = printInfo;
