@@ -1,5 +1,5 @@
 const printTitle = require("./printTitle");
-const { findLongestValue, tabs } = require("../../../helpers");
+const { findLongestValue, strOfSpaces } = require("../../../helpers");
 
 const printInfoSmall = (
   repositories,
@@ -25,14 +25,14 @@ const printRepos = repositories => {
   printTitle(titleText, repositories.length);
 
   const longestValue = findLongestValue(repositories, "name");
-  let tab = tabs("Repository", longestValue);
+  let spaces = strOfSpaces("Repository", longestValue);
 
-  console.log(`Repository${tab}| Path`);
+  console.log(`Repository${spaces}| Path`);
   console.log("-".repeat(process.stdout.columns - 1));
 
   repositories.map(repo => {
-    const tab = tabs(repo.name, longestValue);
-    console.log(`${repo.name}${tab}| ${repo.path}`);
+    const spaces = strOfSpaces(repo.name, longestValue);
+    console.log(`${repo.name}${spaces}| ${repo.path}`);
   });
   console.log("");
 };
@@ -46,14 +46,14 @@ const printProjectsNotRepos = projectButNotRepo => {
   printTitle(titleText, projectButNotRepo.length);
 
   const longestValue = findLongestValue(projectButNotRepo, "name");
-  let tab = tabs("Project", longestValue);
+  let spaces = strOfSpaces("Project", longestValue);
 
-  console.log(`Project${tab}| Path`);
+  console.log(`Project${spaces}| Path`);
   console.log("-".repeat(process.stdout.columns - 1));
 
   projectButNotRepo.map(repo => {
-    const tab = tabs(repo.name, longestValue);
-    console.log(`${repo.name}${tab}| ${repo.path}`);
+    const spaces = strOfSpaces(repo.name, longestValue);
+    console.log(`${repo.name}${spaces}| ${repo.path}`);
   });
   console.log("");
 };
@@ -67,14 +67,14 @@ const printReposWithoutRemote = reposWithoutRemote => {
   printTitle(titleText, reposWithoutRemote.length);
 
   const longestValue = findLongestValue(reposWithoutRemote, "name");
-  let tab = tabs("Project", longestValue);
+  let spaces = strOfSpaces("Project", longestValue);
 
-  console.log(`Project${tab}| Path`);
+  console.log(`Project${spaces}| Path`);
   console.log("-".repeat(process.stdout.columns - 1));
 
   reposWithoutRemote.map(repo => {
-    const tab = tabs(repo.name, longestValue);
-    console.log(`${repo.name}${tab}| ${repo.path}`);
+    const spaces = strOfSpaces(repo.name, longestValue);
+    console.log(`${repo.name}${spaces}| ${repo.path}`);
   });
   console.log("");
 };
@@ -90,10 +90,10 @@ const printChangedRepos = outdatedRepos => {
   const longestName = findLongestValue(outdatedRepos, "name");
   const longestPath = findLongestValue(outdatedRepos, "path");
 
-  let tabName = tabs("Repository", longestName);
-  let tabPath = tabs("Path", longestPath);
+  let spacesName = strOfSpaces("Repository", longestName);
+  let spacesPath = strOfSpaces("Path", longestPath);
 
-  console.log(`Repository${tabName}| Path${tabPath}| Changes`);
+  console.log(`Repository${spacesName}| Path${spacesPath}| Changes`);
   console.log("-".repeat(process.stdout.columns - 1));
 
   outdatedRepos.map(repo => {
@@ -104,10 +104,10 @@ const printChangedRepos = outdatedRepos => {
         name = repo.name;
         path = repo.path;
       }
-      const tabName = tabs(name, longestName);
-      const tabPath = tabs(path, longestPath);
+      const spacesName = strOfSpaces(name, longestName);
+      const spacesPath = strOfSpaces(path, longestPath);
 
-      console.log(`${name}${tabName}| ${path}${tabPath}| ${change}`);
+      console.log(`${name}${spacesName}| ${path}${spacesPath}| ${change}`);
     });
     console.log("-".repeat(process.stdout.columns - 1));
   });

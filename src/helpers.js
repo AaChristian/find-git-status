@@ -18,14 +18,14 @@ const createConfigIfNotExist = path => {
 /**
  * Find the langest value of a given key in a array of objects
  * // TODO: Rename object variable to array
- * @param {Array<object>} object The array of objects to search through
+ * @param {Array<object>} array The array of objects to search through
  * @param {string} property The property of the object
  * @returns {number} The length of the longest value
  */
-const findLongestValue = (object, property) => {
+const findLongestValue = (array, property) => {
   let length = 0;
-  Object.keys(object).forEach(key => {
-    const str = object[key][property];
+  array.forEach(obj => {
+    const str = obj[property];
     if (str.length > length) {
       length = str.length;
     }
@@ -35,20 +35,22 @@ const findLongestValue = (object, property) => {
 
 /**
  * Create a string of spaces needed so that a strings length
- * matches a longer string
- * // TODO: Rename function to appendSpaces and return the string with the spaces instead of just the spaces.
+ * matches a longer string. Also adds extra padding at the end.
+ * // TODO: Consider renaming function to appendSpaces and return the string with the spaces instead of just the spaces.
+ *          Or, rename to strPadding.
  * @param {string} string
- * @param {*} longString  The long string
+ * @param {number} longestValue   The length to compare against
  * @returns {string} The string of spaces
  */
-const tabs = (str, longestValue) => {
+const strOfSpaces = (str, longestValue) => {
+  const padding = 1;
   const lengthDiff = longestValue - str.length;
-  const tab = " ".repeat(lengthDiff > 0 ? lengthDiff + 1 : 1);
+  const tab = " ".repeat(lengthDiff > 0 ? lengthDiff + padding : padding);
   return tab;
 };
 
 module.exports = {
   createConfigIfNotExist,
   findLongestValue,
-  tabs
+  strOfSpaces
 };

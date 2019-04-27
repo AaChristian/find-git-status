@@ -1,6 +1,10 @@
 const mockFs = require("mock-fs");
 const fs = require("fs");
-const { createConfigIfNotExist } = require("../../../src/helpers");
+const {
+  createConfigIfNotExist,
+  findLongestValue,
+  strOfSpaces
+} = require("../../../src/helpers");
 
 beforeEach(() => {
   mockFs.mock();
@@ -19,5 +23,31 @@ describe("createConfigIfNotExist", () => {
     return createConfigIfNotExist(pathToCheck).then(() => {
       expect(fs.existsSync(pathToCheck)).toBe(true);
     });
+  });
+});
+
+describe("findLongestValue", () => {
+  const arrayOfObjs = [
+    { key1: "str1", key2: "long-string" },
+    { key1: "hello", key2: "long-string2" },
+    { key1: "str2", key2: "long-string345" }
+  ];
+  test("should return 5", () => {
+    expect(findLongestValue(arrayOfObjs, "key1")).toBe(5);
+  });
+  test("should return 14", () => {
+    expect(findLongestValue(arrayOfObjs, "key2")).toBe(14);
+  });
+});
+
+describe("strOfSpaces", () => {
+  test("should return string of spaces with length of 4", () => {
+    expect(strOfSpaces("str1", 7)).toHaveLength(4);
+  });
+  test("should return string of spaces with length of 17", () => {
+    expect(strOfSpaces("string", 22)).toHaveLength(17);
+  });
+  test("should return string of spaces with length of 1 if length of string is the same as the given number", () => {
+    expect(strOfSpaces("str", 3)).toHaveLength(1);
   });
 });
