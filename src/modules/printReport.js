@@ -4,7 +4,7 @@ const {
   printChangedRepos,
   printProjectsNotRepos,
   printReposWithoutRemote
-} = require("./gitStatus/report");
+} = require("./gitStatus/report/printReportSections");
 
 const printInfo = (
   repositories,

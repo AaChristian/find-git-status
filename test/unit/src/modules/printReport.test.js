@@ -1,16 +1,16 @@
 const printReport = require("../../../../src/modules/printReport");
-const report = require("../../../../src/modules/gitStatus/report");
+const reportSections = require("../../../../src/modules/gitStatus/report/printReportSections");
 
-jest.mock("../../../../src/modules/gitStatus/report");
+jest.mock("../../../../src/modules/gitStatus/report/printReportSections");
 
 describe("printReport", () => {
   test("should call all functions that print the report", () => {
     printReport([], [], [], []);
 
-    expect(report.printInfoSmall.mock.calls.length).toBe(1);
-    expect(report.printRepos.mock.calls.length).toBe(1);
-    expect(report.printChangedRepos.mock.calls.length).toBe(1);
-    expect(report.printReposWithoutRemote.mock.calls.length).toBe(1);
-    expect(report.printProjectsNotRepos.mock.calls.length).toBe(1);
+    expect(reportSections.printInfoSmall.mock.calls.length).toBe(1);
+    expect(reportSections.printRepos.mock.calls.length).toBe(1);
+    expect(reportSections.printChangedRepos.mock.calls.length).toBe(1);
+    expect(reportSections.printReposWithoutRemote.mock.calls.length).toBe(1);
+    expect(reportSections.printProjectsNotRepos.mock.calls.length).toBe(1);
   });
 });
