@@ -1,4 +1,4 @@
-const { findOutdatedRepos } = require("../../../../../src/modules/gitStatus");
+const { findChangedRepos } = require("../../../../../src/modules/gitStatus");
 const { exec } = require("promisify-child-process");
 
 jest.mock("promisify-child-process");
@@ -8,13 +8,13 @@ beforeEach(() => {
   exec.mockReset();
 });
 
-describe("findOutdatedRepos", () => {
+describe("findChangedRepos", () => {
   test("should return empty array if no repositories is given", () => {
     const repositories = [];
 
     exec.mockResolvedValue({ stdout: "" });
 
-    return findOutdatedRepos(repositories).then(result => {
+    return findChangedRepos(repositories).then(result => {
       expect(result).toEqual([]);
       expect(exec.mock.calls.length).toBe(0);
     });
@@ -28,7 +28,7 @@ describe("findOutdatedRepos", () => {
 
     exec.mockResolvedValue({ stdout: "" });
 
-    return findOutdatedRepos(repositories).then(result => {
+    return findChangedRepos(repositories).then(result => {
       expect(result).toEqual([]);
       expect(exec.mock.calls.length).toBe(2);
     });
@@ -48,7 +48,7 @@ describe("findOutdatedRepos", () => {
       .mockResolvedValueOnce({ stdout: "" })
       .mockResolvedValueOnce({ stdout: "?? README.md" });
 
-    return findOutdatedRepos(repositories).then(result => {
+    return findChangedRepos(repositories).then(result => {
       expect(result).toEqual(expectedResult);
       expect(exec.mock.calls.length).toBe(2);
     });

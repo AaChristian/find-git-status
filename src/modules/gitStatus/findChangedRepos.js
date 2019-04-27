@@ -5,7 +5,7 @@ const { exec } = require("promisify-child-process");
  * @param {Array<object>} repositories The repositories to check
  * @returns {Promise<Array<object>>} The outdated repositories, with name, path and changes
  */
-const findOutdatedRepos = async repositories => {
+const findChangedRepos = async repositories => {
   /**
    * Check git status for a repository
    * @param {object} repo The repo to check
@@ -55,4 +55,4 @@ const findOutdatedRepos = async repositories => {
   });
 };
 
-module.exports = findOutdatedRepos;
+module.exports = findChangedRepos;

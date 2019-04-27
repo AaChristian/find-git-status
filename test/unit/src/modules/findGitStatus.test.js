@@ -11,7 +11,7 @@ beforeEach(() => {
   gitStatusModules.addReposToIgnoreList.mockResolvedValue([]);
   gitStatusModules.findAllGitRepos.mockResolvedValue([]);
   gitStatusModules.findProjectsNotRepos.mockResolvedValue([]);
-  gitStatusModules.findOutdatedRepos.mockResolvedValue([]);
+  gitStatusModules.findChangedRepos.mockResolvedValue([]);
   gitStatusModules.findReposWithoutRemote.mockResolvedValue([]);
 
   printReport.mockReturnValue();
@@ -56,14 +56,14 @@ describe("gitStatus", () => {
     });
   });
 
-  test("should call findOutdatedRepos", () => {
+  test("should call findChangedRepos", () => {
     fs.readFileSync = jest
       .fn()
       .mockReturnValue(JSON.stringify({ directories: ["testDir1"] }, null, 2));
 
     expect.assertions(1);
     return gitStatus().then(() => {
-      expect(gitStatusModules.findOutdatedRepos.mock.calls.length).toBe(1);
+      expect(gitStatusModules.findChangedRepos.mock.calls.length).toBe(1);
     });
   });
 

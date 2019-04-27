@@ -3,7 +3,7 @@ const path = require("path");
 const printReport = require("./printReport");
 const {
   findAllGitRepos,
-  findOutdatedRepos,
+  findChangedRepos,
   findProjectsNotRepos,
   findReposWithoutRemote,
   addReposToIgnoreList
@@ -37,7 +37,7 @@ const gitStatus = () => {
       );
 
       // Check git status on repos
-      const outdatedReposInDIr = await findOutdatedRepos(reposInDir);
+      const outdatedReposInDIr = await findChangedRepos(reposInDir);
 
       // Find repositores without remote
       const reposWithoutRemoteInDir = await findReposWithoutRemote(reposInDir);

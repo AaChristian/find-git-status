@@ -1,12 +1,12 @@
 const findAllGitRepos = require("./findAllGitRepos");
-const findOutdatedRepos = require("./findOutdatedRepos");
+const findChangedRepos = require("./findChangedRepos");
 const findProjectsNotRepos = require("./findProjectsNotRepos");
 const findReposWithoutRemote = require("./findReposWithoutRemote");
 const addReposToIgnoreList = require("./addReposToIgnoreList");
 
 module.exports = {
   findAllGitRepos,
-  findOutdatedRepos,
+  findChangedRepos,
   findProjectsNotRepos,
   findReposWithoutRemote,
   addReposToIgnoreList
