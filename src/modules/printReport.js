@@ -1,9 +1,7 @@
 const {
   printInfoSmall,
-  printRepos,
-  printChangedRepos,
-  printProjectsNotRepos,
-  printReposWithoutRemote
+  printBasicSection,
+  printChangedRepos
 } = require("./gitStatus/report/printReportSections");
 
 /**
@@ -27,14 +25,29 @@ const printReport = (
     reposWithoutRemote
   );
 
-  // Print all repos
-  printRepos(repositories);
+  // Print all repositories
+  printBasicSection(
+    repositories,
+    "Projects with git repositories",
+    "Repository"
+  );
+
+  // Print projects that are not repos
+  printBasicSection(
+    projectButNotRepo,
+    "Projects without git repositories",
+    "Project"
+  );
+
+  // Print repos that has no remote
+  printBasicSection(
+    reposWithoutRemote,
+    "Repositories with no remote",
+    "Project"
+  );
+
   // Print repos that have changes not commited
   printChangedRepos(outdatedRepos);
-  // Print repos that has no remote
-  printReposWithoutRemote(reposWithoutRemote);
-  // Print projects that are not repos
-  printProjectsNotRepos(projectButNotRepo);
 };
 
 // TODO: Only export the constant instead of object

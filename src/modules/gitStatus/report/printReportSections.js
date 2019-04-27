@@ -16,79 +16,46 @@ const printInfoSmall = (
   console.log("Projects but not repos:\t\t" + projectButNotRepo.length + "\n");
 };
 
-const printRepos = repositories => {
-  if (repositories.length === 0) {
+/**
+ * Print out a basic setion, with project/repository name and path columns
+ * @param {Array<object>} content The content of the section
+ * @param {string} title The title
+ * @param {string} nameHeader The header value of the name of the project/repository
+ */
+const printBasicSection = (content, title, nameHeader) => {
+  if (content.length === 0) {
     return;
   }
+  // Print header/title
+  printTitle(title, content.length);
 
-  const titleText = "Projects with git repositories";
-  printTitle(titleText, repositories.length);
+  const longestValue = findLongestValue(content, "name");
+  let spaces = strOfSpaces(nameHeader, longestValue);
 
-  const longestValue = findLongestValue(repositories, "name");
-  let spaces = strOfSpaces("Repository", longestValue);
-
-  console.log(`Repository${spaces}| Path`);
+  console.log(`${nameHeader}${spaces}| Path`);
   console.log("-".repeat(process.stdout.columns - 1));
 
-  repositories.map(repo => {
+  content.map(repo => {
     const spaces = strOfSpaces(repo.name, longestValue);
     console.log(`${repo.name}${spaces}| ${repo.path}`);
   });
   console.log("");
 };
 
-const printProjectsNotRepos = projectButNotRepo => {
-  if (projectButNotRepo.length === 0) {
-    return;
-  }
-
-  const titleText = "Projects without git repositories";
-  printTitle(titleText, projectButNotRepo.length);
-
-  const longestValue = findLongestValue(projectButNotRepo, "name");
-  let spaces = strOfSpaces("Project", longestValue);
-
-  console.log(`Project${spaces}| Path`);
-  console.log("-".repeat(process.stdout.columns - 1));
-
-  projectButNotRepo.map(repo => {
-    const spaces = strOfSpaces(repo.name, longestValue);
-    console.log(`${repo.name}${spaces}| ${repo.path}`);
-  });
-  console.log("");
-};
-
-const printReposWithoutRemote = reposWithoutRemote => {
-  if (reposWithoutRemote.length === 0) {
-    return;
-  }
-
-  const titleText = "Repositories with no remote";
-  printTitle(titleText, reposWithoutRemote.length);
-
-  const longestValue = findLongestValue(reposWithoutRemote, "name");
-  let spaces = strOfSpaces("Project", longestValue);
-
-  console.log(`Project${spaces}| Path`);
-  console.log("-".repeat(process.stdout.columns - 1));
-
-  reposWithoutRemote.map(repo => {
-    const spaces = strOfSpaces(repo.name, longestValue);
-    console.log(`${repo.name}${spaces}| ${repo.path}`);
-  });
-  console.log("");
-};
-
-const printChangedRepos = outdatedRepos => {
-  if (outdatedRepos.length === 0) {
+/**
+ * Print section for the repositories that have changes
+ * @param {Array<object>} changedRepos The changed repositories
+ */
+const printChangedRepos = changedRepos => {
+  if (changedRepos.length === 0) {
     return;
   }
 
   const titleText = "Repositories with uncommited changes";
-  printTitle(titleText, outdatedRepos.length);
+  printTitle(titleText, changedRepos.length);
 
-  const longestName = findLongestValue(outdatedRepos, "name");
-  const longestPath = findLongestValue(outdatedRepos, "path");
+  const longestName = findLongestValue(changedRepos, "name");
+  const longestPath = findLongestValue(changedRepos, "path");
 
   let spacesName = strOfSpaces("Repository", longestName);
   let spacesPath = strOfSpaces("Path", longestPath);
@@ -96,7 +63,7 @@ const printChangedRepos = outdatedRepos => {
   console.log(`Repository${spacesName}| Path${spacesPath}| Changes`);
   console.log("-".repeat(process.stdout.columns - 1));
 
-  outdatedRepos.map(repo => {
+  changedRepos.map(repo => {
     repo.changes.map((change, index) => {
       let name = "";
       let path = "";
@@ -115,8 +82,6 @@ const printChangedRepos = outdatedRepos => {
 
 module.exports = {
   printInfoSmall,
-  printRepos,
-  printChangedRepos,
-  printReposWithoutRemote,
-  printProjectsNotRepos
+  printBasicSection,
+  printChangedRepos
 };

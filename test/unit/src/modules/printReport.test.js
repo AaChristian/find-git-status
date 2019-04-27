@@ -8,9 +8,7 @@ describe("printReport", () => {
     printReport([], [], [], []);
 
     expect(reportSections.printInfoSmall.mock.calls.length).toBe(1);
-    expect(reportSections.printRepos.mock.calls.length).toBe(1);
+    expect(reportSections.printBasicSection.mock.calls.length).toBe(3);
     expect(reportSections.printChangedRepos.mock.calls.length).toBe(1);
-    expect(reportSections.printReposWithoutRemote.mock.calls.length).toBe(1);
-    expect(reportSections.printProjectsNotRepos.mock.calls.length).toBe(1);
   });
 });
