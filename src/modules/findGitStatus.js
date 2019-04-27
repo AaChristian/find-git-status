@@ -26,7 +26,6 @@ const gitStatus = () => {
 
       // Find all dirs where .git dir exist
       const reposInDir = await findAllGitRepos(directory);
-      console.log(reposInDir);
 
       // Add repos to ignore list
       await addReposToIgnoreList(reposInDir);

@@ -6,7 +6,14 @@ const {
   printReposWithoutRemote
 } = require("./gitStatus/report/printReportSections");
 
-const printInfo = (
+/**
+ * Print out a complete report of the results
+ * @param {Array<object>} repositories        Projects that are repositories
+ * @param {Array<object>} projectButNotRepo   Projects that are not repositories
+ * @param {Array<object>} outdatedRepos       Repositories that have local changes compared to remote
+ * @param {Array<object>} reposWithoutRemote  Repositories withouth a remote URL
+ */
+const printReport = (
   repositories,
   projectButNotRepo,
   outdatedRepos,
@@ -31,4 +38,4 @@ const printInfo = (
 };
 
 // TODO: Only export the constant instead of object
-module.exports = printInfo;
+module.exports = printReport;
