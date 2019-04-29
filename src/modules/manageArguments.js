@@ -1,5 +1,6 @@
 const path = require("path");
-const { addDirectoryToConfig } = require("./runtimeConfig");
+const { options, addDirectoryToConfig, printHelp } = require("./runtimeConfig");
+const { createConfigIfNotExist } = require("../helpers");
 
 const configPath = path.resolve(__dirname, "../../config.json");
 
@@ -23,9 +24,32 @@ const isSubstringInArgumentArray = (arg, argumentArray) => {
   return index !== -1 ? true : false;
 };
 
+/**
+ * Process the arguments/options from the command line
+ * @param {Array<string>} userArguments The command line arguments
+ * @return {Promise<>}
+ */
 const processArguments = userArguments => {
   return new Promise(async (resolve, reject) => {
     try {
+      /**
+       * Print help
+       */
+      if (options.help.valid.includes(userArguments[0])) {
+        await printHelp(options);
+        resolve();
+        return;
+      }
+
+      /**
+       * Initialize config
+       */
+      if (options.init.valid.includes(userArguments[0])) {
+        await createConfigIfNotExist(configPath);
+        resolve();
+        return;
+      }
+
       /**
        * Add directory to config
        */

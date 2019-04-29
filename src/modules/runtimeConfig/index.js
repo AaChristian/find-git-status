@@ -1,5 +1,9 @@
+const options = require("./options");
 const addDirectoryToConfig = require("./addDirectoryToConfig");
+const printHelp = require("./printHelp");
 
 module.exports = {
-  addDirectoryToConfig
+  options,
+  addDirectoryToConfig,
+  printHelp
 };

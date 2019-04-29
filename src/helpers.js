@@ -49,8 +49,28 @@ const strOfSpaces = (str, longestValue) => {
   return tab;
 };
 
+/**
+ * Find the longest length of elements in the valid options/arguments.
+ * First all the elements in the array is joined with a seperator,
+ * then the length is evaluated.
+ * @param {object} object    The object to search
+ * @param {string} seperator Seperate the elements with this optional string
+ * @returns {number}  The length of the longest joined list
+ */
+const lengthOfLongestOptionsList = (options, seperator = ", ") => {
+  let length = 0;
+  Object.keys(options).forEach(key => {
+    const str = options[key].valid.join(seperator);
+    if (str.length > length) {
+      length = str.length;
+    }
+  });
+  return length;
+};
+
 module.exports = {
   createConfigIfNotExist,
   findLongestValue,
-  strOfSpaces
+  strOfSpaces,
+  lengthOfLongestOptionsList
 };

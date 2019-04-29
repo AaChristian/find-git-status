@@ -3,7 +3,8 @@ const fs = require("fs");
 const {
   createConfigIfNotExist,
   findLongestValue,
-  strOfSpaces
+  strOfSpaces,
+  lengthOfLongestOptionsList
 } = require("../../../src/helpers");
 
 beforeEach(() => {
@@ -49,5 +50,17 @@ describe("strOfSpaces", () => {
   });
   test("should return string of spaces with length of 1 if length of string is the same as the given number", () => {
     expect(strOfSpaces("str", 3)).toHaveLength(1);
+  });
+});
+
+describe("lengthOfLongestOptionsList", () => {
+  test("should return 9", () => {
+    const options = {
+      test: { valid: ["-t", "-test"] },
+      test2: { valid: ["-t", "-t2"] }
+    };
+
+    expect(lengthOfLongestOptionsList(options, ", ")).toBe(9);
+    expect(lengthOfLongestOptionsList(options)).toBe(9);
   });
 });
