@@ -1,14 +1,25 @@
 const glob = require("glob");
-const { isProjectCheck, globOptions } = require("../../globalConfig");
 
 /**
  * Find all potential projects that are not git repositories.
  * @param {Array<object>} repositories The repositories previously found
  * @param {string} directory The directory to search
+ * @param {object} globalConfig The globalConfig
  * @returns {Promise<object>} The projects
  */
-const findProjectsNotRepos = (repositories, directory) => {
+const findProjectsNotRepos = (repositories, directory, globalConfig) => {
   return new Promise((resolve, reject) => {
+    // If not all arguments is given, reject
+    if (
+      typeof repositories === "undefined" ||
+      typeof directory === "undefined" ||
+      typeof globalConfig === "undefined"
+    ) {
+      reject("Missing arguments..");
+      return;
+    }
+
+    const { isProjectCheck, globOptions } = globalConfig;
     const projectButNotRepo = [];
 
     // The glob search pattern

@@ -1,13 +1,22 @@
 const glob = require("glob");
-const { globOptions } = require("../../globalConfig");
 
 /**
  * Find all git repositires within a directory
- * @param {string} directory  The directory to search
+ * @param {string} directory The directory to search
+ * @param {object.object} globOptions Options to use whiole searching for potential projects
  * @returns {Promise<object>} The repositories found
  */
-const findAllGitRepos = directory => {
+const findAllGitRepos = (directory, globOptions) => {
   return new Promise((resolve, reject) => {
+    // If not all arguments is given, reject
+    if (
+      typeof directory === "undefined" ||
+      typeof globOptions === "undefined"
+    ) {
+      reject("Missing arguments..");
+      return;
+    }
+
     const repositories = [];
 
     // Search the directory and subdirectories for git repositories

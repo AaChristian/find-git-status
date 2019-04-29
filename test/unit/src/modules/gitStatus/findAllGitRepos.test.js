@@ -1,5 +1,6 @@
 const mockFs = require("mock-fs");
 const { findAllGitRepos } = require("../../../../../src/modules/gitStatus");
+const { globOptions } = require("../../../../../src/globalConfig");
 
 beforeEach(() => {
   mockFs.mock();
@@ -10,8 +11,23 @@ afterEach(() => {
 });
 
 describe("findAllGitRepos", () => {
+  test("should reject if no arguments given", () => {
+    expect.assertions(1);
+    return findAllGitRepos().catch(error => {
+      expect(error).toMatch("Missing arguments");
+    });
+  });
+
+  test("should reject if only one argument is given", () => {
+    expect.assertions(1);
+    return findAllGitRepos().catch(error => {
+      expect(error).toMatch("Missing arguments");
+    });
+  });
+
   test("should return empty array if no directory is given", () => {
-    return findAllGitRepos().then(result => {
+    expect.assertions(1);
+    return findAllGitRepos("", globOptions).then(result => {
       expect(result).toEqual([]);
     });
   });
@@ -24,7 +40,10 @@ describe("findAllGitRepos", () => {
         }
       }
     });
-    return findAllGitRepos("testDir").then(result => {
+
+    expect.assertions(1);
+
+    return findAllGitRepos("testDir", globOptions).then(result => {
       expect(result).toHaveLength(0);
     });
   });
@@ -39,7 +58,9 @@ describe("findAllGitRepos", () => {
       }
     });
 
-    return findAllGitRepos("testDir").then(result => {
+    expect.assertions(1);
+
+    return findAllGitRepos("testDir", globOptions).then(result => {
       expect(result).toHaveLength(0);
     });
   });
@@ -56,7 +77,9 @@ describe("findAllGitRepos", () => {
       }
     });
 
-    return findAllGitRepos("testDir").then(result => {
+    expect.assertions(2);
+
+    return findAllGitRepos("testDir", globOptions).then(result => {
       expect(result).toHaveLength(1);
       expect(result).toEqual([{ name: "proj", path: "testDir/dir2/proj" }]);
     });
@@ -80,7 +103,9 @@ describe("findAllGitRepos", () => {
       }
     });
 
-    return findAllGitRepos("testDir").then(result => {
+    expect.assertions(2);
+
+    return findAllGitRepos("testDir", globOptions).then(result => {
       expect(result).toHaveLength(3);
       expect(result).toEqual([
         { name: "proj", path: "testDir/dir2/proj" },

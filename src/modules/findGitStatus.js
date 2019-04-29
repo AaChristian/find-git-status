@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+let globalConfig = require("../globalConfig");
 const printReport = require("./printReport");
 const {
   findAllGitRepos,
@@ -25,15 +26,19 @@ const gitStatus = () => {
       console.log("Searching " + directory);
 
       // Find all dirs where .git dir exist
-      const reposInDir = await findAllGitRepos(directory);
+      const reposInDir = await findAllGitRepos(
+        directory,
+        globalConfig.globOptions
+      );
 
-      // Add repos to ignore list
-      await addReposToIgnoreList(reposInDir);
+      // Add repos to ignore list, return the updated config
+      globalConfig = await addReposToIgnoreList(reposInDir, globalConfig);
 
       // Find protential projects that arent git repositories
       const projectButNotRepoInDir = await findProjectsNotRepos(
         reposInDir,
-        directory
+        directory,
+        globalConfig
       );
 
       // Check git status on repos
