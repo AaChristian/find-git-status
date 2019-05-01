@@ -8,20 +8,20 @@ const {
  * Print out a complete report of the results
  * @param {Array<object>} repositories        Projects that are repositories
  * @param {Array<object>} projectButNotRepo   Projects that are not repositories
- * @param {Array<object>} outdatedRepos       Repositories that have local changes compared to remote
+ * @param {Array<object>} changedRepos       Repositories that have local changes compared to remote
  * @param {Array<object>} reposWithoutRemote  Repositories withouth a remote URL
  */
 const printReport = (
   repositories,
   projectButNotRepo,
-  outdatedRepos,
+  changedRepos,
   reposWithoutRemote
 ) => {
   // Print general info
   printInfoSmall(
     repositories,
     projectButNotRepo,
-    outdatedRepos,
+    changedRepos,
     reposWithoutRemote
   );
 
@@ -47,7 +47,7 @@ const printReport = (
   );
 
   // Print repos that have changes not commited
-  printChangedRepos(outdatedRepos);
+  printChangedRepos(changedRepos);
 };
 
 // TODO: Only export the constant instead of object

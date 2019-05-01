@@ -29,12 +29,12 @@ describe("printInfoSmall", () => {
   test("should print correct title information", () => {
     const repositories = [{}, {}, {}];
     const projectButNotRepo = [{}, {}, {}, {}];
-    const outdatedRepos = [{}];
+    const changedRepos = [{}];
     const reposWithoutRemote = [{}, {}];
     printInfoSmall(
       repositories,
       projectButNotRepo,
-      outdatedRepos,
+      changedRepos,
       reposWithoutRemote
     );
 
@@ -42,7 +42,7 @@ describe("printInfoSmall", () => {
 
     expect(outputData).toMatch("Projects found: 7");
     expect(outputData).toMatch("Repositories found: 3");
-    expect(outputData).toMatch("Repositories outdated: 1");
+    expect(outputData).toMatch("Repositories changed: 1");
     expect(outputData).toMatch("Repositories without remote: 2");
     expect(outputData).toMatch("Projects but not repos: 4");
   });
@@ -81,9 +81,9 @@ describe("printBasicSection", () => {
 
 describe("printChangedRepos", () => {
   test("should not print section if array is empty", () => {
-    const outdatedRepos = [];
+    const changedRepos = [];
 
-    printChangedRepos(outdatedRepos);
+    printChangedRepos(changedRepos);
 
     expect(printTitle.mock.calls.length).toBe(0);
     expect(helpers.findLongestValue.mock.calls.length).toBe(0);
@@ -92,7 +92,7 @@ describe("printChangedRepos", () => {
   });
 
   test("should print correct repos without remote information", () => {
-    const outdatedRepos = [
+    const changedRepos = [
       { name: "test one", path: "path/one", changes: [" M README.md"] },
       {
         name: "test two",
@@ -100,7 +100,7 @@ describe("printChangedRepos", () => {
         changes: ["?? src/newfile.txt", " M .env"]
       }
     ];
-    printChangedRepos(outdatedRepos);
+    printChangedRepos(changedRepos);
 
     outputData = outputData.trim().replace(/\t+/g, " ");
 

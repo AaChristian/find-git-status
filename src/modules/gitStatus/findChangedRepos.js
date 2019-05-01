@@ -40,17 +40,17 @@ const findChangedRepos = async repositories => {
 
   return new Promise((resolve, reject) => {
     Promise.all(repositories.map(repo => checkGitStatus(repo))).then(result => {
-      let outdatedRepos = [];
+      let changedRepos = [];
 
-      // For all results from the promises, only push to outdatedRepos arry
+      // For all results from the promises, only push to changedRepos arry
       // if the result is not null, ie if the repo is outdated.
       for (let i = 0; i < result.length; i++) {
         if (result[i] !== null) {
-          outdatedRepos.push(result[i]);
+          changedRepos.push(result[i]);
         }
       }
 
-      resolve(outdatedRepos);
+      resolve(changedRepos);
     });
   });
 };

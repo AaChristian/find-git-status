@@ -20,7 +20,7 @@ const findAllProjects = () => {
   return new Promise(async (resolve, reject) => {
     let repositories = [];
     let projectButNotRepo = [];
-    let outdatedRepos = [];
+    let changedRepos = [];
     let reposWithoutRemote = [];
 
     const { directories } = JSON.parse(
@@ -48,14 +48,14 @@ const findAllProjects = () => {
       );
 
       // Check git status on repos
-      const outdatedReposInDIr = await findChangedRepos(reposInDir);
+      const changedReposInDIr = await findChangedRepos(reposInDir);
 
       // Find repositores without remote
       const reposWithoutRemoteInDir = await findReposWithoutRemote(reposInDir);
 
       repositories = [...repositories, ...reposInDir];
       projectButNotRepo = [...projectButNotRepo, ...projectButNotRepoInDir];
-      outdatedRepos = [...outdatedRepos, ...outdatedReposInDIr];
+      changedRepos = [...changedRepos, ...changedReposInDIr];
       reposWithoutRemote = [...reposWithoutRemote, ...reposWithoutRemoteInDir];
     }
 
@@ -63,7 +63,7 @@ const findAllProjects = () => {
     printReport(
       repositories,
       projectButNotRepo,
-      outdatedRepos,
+      changedRepos,
       reposWithoutRemote
     );
 

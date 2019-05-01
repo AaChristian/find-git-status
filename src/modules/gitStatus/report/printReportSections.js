@@ -2,17 +2,24 @@ const printTitle = require("./printTitle");
 const { findLongestValue, strOfSpaces } = require("../../../helpers");
 const uniqBy = require("lodash/uniqBy");
 
+/**
+ * Print the number of projects and git repositories found
+ * @param {Array<object>} repositories
+ * @param {Array<object>} projectButNotRepo
+ * @param {Array<object>} changedRepos
+ * @param {Array<object>} reposWithoutRemote
+ */
 const printInfoSmall = (
   repositories,
   projectButNotRepo,
-  outdatedRepos,
+  changedRepos,
   reposWithoutRemote
 ) => {
   console.log(
     "\nProjects found:\t\t\t" + (repositories.length + projectButNotRepo.length)
   );
   console.log("Repositories found:\t\t" + repositories.length);
-  console.log("Repositories outdated:\t\t" + outdatedRepos.length);
+  console.log("Repositories changed:\t\t" + changedRepos.length);
   console.log("Repositories without remote:\t" + reposWithoutRemote.length);
   console.log("Projects but not repos:\t\t" + projectButNotRepo.length + "\n");
 };
