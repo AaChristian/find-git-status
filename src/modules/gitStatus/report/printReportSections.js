@@ -1,5 +1,6 @@
 const printTitle = require("./printTitle");
 const { findLongestValue, strOfSpaces } = require("../../../helpers");
+const uniqBy = require("lodash/uniqBy");
 
 const printInfoSmall = (
   repositories,
@@ -80,8 +81,83 @@ const printChangedRepos = changedRepos => {
   });
 };
 
+/**
+ * Print out the status of the found git repositories. The following is printed
+ * out for each repository: Modified, deleted and untracked files
+ * @param {Array<object>} repositories The git repositories
+ * @param {Array<object>} changedRepos The git repositories with changes
+ */
+const printReposStatus = (repositories, changedRepos) => {
+  // Remove duplicate repos by looking at the repos path
+  const uniqueRepos = uniqBy([...changedRepos, ...repositories], "path");
+
+  /**
+   * Create header string of file changes to keep track of
+   */
+  const statusToTrack = ["M", "D", "U"];
+  const spacesFileCount = strOfSpaces(".", 3);
+  let headerFilesTrack = "";
+  for (let i = 0; i < statusToTrack.length; i++) {
+    const element = statusToTrack[i];
+    headerFilesTrack += element;
+    if (i !== statusToTrack.length - 1) {
+      headerFilesTrack += spacesFileCount;
+    }
+  }
+
+  const longestName = findLongestValue(uniqueRepos, "name");
+  const spacesName = strOfSpaces("Repository", longestName);
+
+  // Example: Repository M(modified) D(deleted) U(untracked)
+  const header = `Repository${spacesName} ${headerFilesTrack}`;
+  console.log(header);
+  console.log("-".repeat(header.length));
+
+  // For each repo
+  uniqueRepos.forEach(repo => {
+    // Object to keep track of the found status changes for the repo
+    const filesFound = {
+      modified: 0,
+      deleted: 0,
+      untracked: 0
+    };
+    if (repo.changes) {
+      repo.changes.forEach(change => {
+        // Get the first two characters of the "changes" element
+        const changeType = change.substring(0, 2);
+        switch (changeType) {
+          case " M":
+            filesFound.modified++;
+            break;
+          case " D":
+            filesFound.deleted++;
+            break;
+          case "??":
+            filesFound.untracked++;
+            break;
+        }
+      });
+    }
+
+    /**
+     * Create result string for the repo of number of files found with changes
+     */
+    let resultFoundString = "";
+    Object.keys(filesFound).forEach(track => {
+      const trackTypeFound = filesFound[track];
+      resultFoundString +=
+        "" + trackTypeFound + strOfSpaces(trackTypeFound + "", 3);
+    });
+
+    // Log the results for the repo
+    const spacesName = strOfSpaces(repo.name, longestName);
+    console.log(`${repo.name}${spacesName} ${resultFoundString}`);
+  });
+};
+
 module.exports = {
   printInfoSmall,
   printBasicSection,
-  printChangedRepos
+  printChangedRepos,
+  printReposStatus
 };

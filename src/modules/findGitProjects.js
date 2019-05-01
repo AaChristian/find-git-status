@@ -2,6 +2,7 @@ const fs = require("fs");
 const path = require("path");
 let globalConfig = require("../globalConfig");
 const printReport = require("./printReport");
+const { printReposStatus } = require("./gitStatus/report/printReportSections");
 const {
   findAllGitRepos,
   findChangedRepos,
@@ -70,4 +71,34 @@ const findAllProjects = () => {
   });
 };
 
-module.exports = findAllProjects;
+const findGitStatusSmall = () => {
+  return new Promise(async (resolve, reject) => {
+    let repositories = [];
+    let changedRepos = [];
+
+    const { directories } = JSON.parse(
+      fs.readFileSync(path.resolve(__dirname, "../../config.json"), "utf-8")
+    );
+
+    for (let i = 0; i < directories.length; i++) {
+      const directory = directories[i];
+      // Find all dirs where .git dir exist
+      const reposInDir = await findAllGitRepos(
+        directory,
+        globalConfig.globOptions
+      );
+
+      // Check git status on repos
+      const changedReposInDIr = await findChangedRepos(reposInDir);
+
+      repositories = [...repositories, ...reposInDir];
+      changedRepos = [...changedRepos, ...changedReposInDIr];
+    }
+
+    printReposStatus(repositories, changedRepos);
+
+    resolve();
+  });
+};
+
+module.exports = { findAllProjects, findGitStatusSmall };

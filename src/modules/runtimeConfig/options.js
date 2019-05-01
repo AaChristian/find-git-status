@@ -10,5 +10,10 @@ module.exports = {
   init: {
     valid: ["--init"],
     description: "Create empty config file"
+  },
+  statusSmall: {
+    valid: ["--git-status", "-gs"],
+    description:
+      "Find status of git repositories and print out compact information"
   }
 };

@@ -1,10 +1,15 @@
-const findAllProjects = require("../../../../src/modules/findGitProjects");
+const {
+  findAllProjects,
+  findGitStatusSmall
+} = require("../../../../src/modules/findGitProjects");
 const gitStatusModules = require("../../../../src/modules/gitStatus");
 const printReport = require("../../../../src/modules/printReport");
+const printReportSections = require("../../../../src/modules/gitStatus/report/printReportSections");
 const fs = require("fs");
 
 jest.mock("../../../../src/modules/gitStatus");
 jest.mock("../../../../src/modules/printReport");
+jest.mock("../../../../src/modules/gitStatus/report/printReportSections");
 jest.mock("fs");
 
 beforeEach(() => {
@@ -86,6 +91,41 @@ describe("findAllProjects", () => {
     expect.assertions(1);
     return findAllProjects().then(() => {
       expect(printReport.mock.calls.length).toBe(1);
+    });
+  });
+});
+
+describe("findGitStatusSmall", () => {
+  test("should call findAllGitRepos", () => {
+    fs.readFileSync = jest
+      .fn()
+      .mockReturnValue(JSON.stringify({ directories: ["testDir1"] }, null, 2));
+
+    expect.assertions(1);
+    return findGitStatusSmall().then(() => {
+      expect(gitStatusModules.findAllGitRepos.mock.calls.length).toBe(1);
+    });
+  });
+
+  test("should call findChangedRepos", () => {
+    fs.readFileSync = jest
+      .fn()
+      .mockReturnValue(JSON.stringify({ directories: ["testDir1"] }, null, 2));
+
+    expect.assertions(1);
+    return findGitStatusSmall().then(() => {
+      expect(gitStatusModules.findChangedRepos.mock.calls.length).toBe(1);
+    });
+  });
+
+  test("should call printReposStatus", () => {
+    fs.readFileSync = jest
+      .fn()
+      .mockReturnValue(JSON.stringify({ directories: ["testDir1"] }, null, 2));
+
+    expect.assertions(1);
+    return findGitStatusSmall().then(() => {
+      expect(printReportSections.printReposStatus.mock.calls.length).toBe(1);
     });
   });
 });

@@ -6,10 +6,12 @@ const {
 const addDirectoryToConfig = require("../../../../src/modules/runtimeConfig/addDirectoryToConfig");
 const printHelp = require("../../../../src/modules/runtimeConfig/printHelp");
 const helpers = require("../../../../src/helpers");
+const findGitProjects = require("../../../../src/modules/findGitProjects");
 
 jest.mock("../../../../src/modules/runtimeConfig/addDirectoryToConfig");
 jest.mock("../../../../src/modules/runtimeConfig/printHelp");
 jest.mock("../../../../src/helpers");
+jest.mock("../../../../src/modules/findGitProjects");
 
 describe("isFirstRealArgumentSet", () => {
   test("should return true", () => {
@@ -41,6 +43,15 @@ describe("processArguments", () => {
     expect.assertions(1);
     return processArguments(["--init"]).then(() => {
       expect(helpers.createConfigIfNotExist.mock.calls.length).toBe(1);
+    });
+  });
+
+  test("should call findGitStatusSmall", () => {
+    findGitProjects.findGitStatusSmall.mockResolvedValue();
+
+    expect.assertions(1);
+    return processArguments(["--git-status"]).then(() => {
+      expect(findGitProjects.findGitStatusSmall.mock.calls.length).toBe(1);
     });
   });
 

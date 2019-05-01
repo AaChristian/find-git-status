@@ -1,5 +1,6 @@
 const path = require("path");
 const { options, addDirectoryToConfig, printHelp } = require("./runtimeConfig");
+const { findGitStatusSmall } = require("./findGitProjects");
 const { createConfigIfNotExist } = require("../helpers");
 
 const configPath = path.resolve(__dirname, "../../config.json");
@@ -51,6 +52,15 @@ const processArguments = userArguments => {
       }
 
       /**
+       * Get git repositories and print a compact table for them
+       */
+      if (options.statusSmall.valid.includes(userArguments[0])) {
+        await findGitStatusSmall(configPath);
+        resolve();
+        return;
+      }
+
+      /**
        * Add directory to config
        */
       const confIndex = userArguments.findIndex(el =>
@@ -59,6 +69,8 @@ const processArguments = userArguments => {
       if (confIndex !== -1) {
         await addDirectoryToConfig(userArguments[confIndex + 1], configPath);
       }
+
+      // Resolve
       resolve();
     } catch (error) {
       console.log(error);

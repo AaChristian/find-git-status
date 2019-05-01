@@ -1,7 +1,8 @@
 const {
   printInfoSmall,
   printBasicSection,
-  printChangedRepos
+  printChangedRepos,
+  printReposStatus
 } = require("../../../../../../src/modules/gitStatus/report/printReportSections");
 const printTitle = require("../../../../../../src/modules/gitStatus/report/printTitle");
 const helpers = require("../../../../../../src/helpers");
@@ -109,5 +110,50 @@ describe("printChangedRepos", () => {
     expect(outputData).toMatch("test one| path/one|  M README.md");
     expect(outputData).toMatch("test two| path/two| ?? src/newfile.txt");
     expect(outputData).toMatch("|  M .env");
+  });
+});
+
+describe("printReposStatus", () => {
+  test("should print correct repos information", () => {
+    const repositories = [
+      {
+        name: "test one",
+        path: "path/one"
+      },
+      {
+        name: "test two",
+        path: "path/two"
+      },
+      {
+        name: "test three",
+        path: "path/three"
+      }
+    ];
+    const changedRepos = [
+      {
+        name: "test one",
+        path: "path/one",
+        changes: [" M README.md", " D pw.txt"]
+      },
+      {
+        name: "test two",
+        path: "path/two",
+        changes: ["?? src/newfile.txt", " M .env"]
+      }
+    ];
+
+    printReposStatus(repositories, changedRepos);
+
+    outputData = outputData.trim().replace(/\  +/gm, " ");
+
+    expect(helpers.findLongestValue.mock.calls.length).toBe(1);
+
+    // strOfSpaces should be called 1 + number of repos
+    expect(helpers.strOfSpaces.mock.calls.length).toBeGreaterThanOrEqual(2);
+
+    expect(outputData).toMatch("Repository MDU");
+    expect(outputData).toMatch("test one 110");
+    expect(outputData).toMatch("test two 101");
+    expect(outputData).toMatch("test three 000");
   });
 });

@@ -1,5 +1,5 @@
 const start = require("../../../src/app");
-const findAllProjects = require("../../../src/modules/findGitProjects");
+const { findAllProjects } = require("../../../src/modules/findGitProjects");
 const runtimeConfig = require(".../../../src/modules/manageArguments");
 
 jest.mock("../../../src/modules/findGitProjects");
