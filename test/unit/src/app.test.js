@@ -1,8 +1,8 @@
 const start = require("../../../src/app");
-const findAllProjects = require("../../../src/modules/findGitStatus");
+const findAllProjects = require("../../../src/modules/findGitProjects");
 const runtimeConfig = require(".../../../src/modules/manageArguments");
 
-jest.mock("../../../src/modules/findGitStatus");
+jest.mock("../../../src/modules/findGitProjects");
 jest.mock("../../../src/modules/manageArguments");
 
 beforeEach(() => {

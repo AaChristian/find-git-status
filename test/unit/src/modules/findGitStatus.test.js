@@ -1,4 +1,4 @@
-const findAllProjects = require("../../../../src/modules/findGitStatus");
+const findAllProjects = require("../../../../src/modules/findGitProjects");
 const gitStatusModules = require("../../../../src/modules/gitStatus");
 const printReport = require("../../../../src/modules/printReport");
 const fs = require("fs");
