@@ -1,5 +1,5 @@
 require("dotenv").config();
-const gitStatus = require("./modules/findGitStatus");
+const findAllProjects = require("./modules/findGitStatus");
 const {
   isFirstRealArgumentSet,
   processArguments
@@ -14,7 +14,7 @@ const start = () => {
     }
 
     if (!isFirstRealArgumentSet(process.argv[2])) {
-      await gitStatus();
+      await findAllProjects();
     }
 
     console.timeEnd("app");

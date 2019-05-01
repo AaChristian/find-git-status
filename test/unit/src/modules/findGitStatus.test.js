@@ -1,4 +1,4 @@
-const gitStatus = require("../../../../src/modules/findGitStatus");
+const findAllProjects = require("../../../../src/modules/findGitStatus");
 const gitStatusModules = require("../../../../src/modules/gitStatus");
 const printReport = require("../../../../src/modules/printReport");
 const fs = require("fs");
@@ -22,14 +22,14 @@ afterEach(() => {
   jest.resetAllMocks();
 });
 
-describe("gitStatus", () => {
+describe("findAllProjects", () => {
   test("should call addReposToIgnoreList", () => {
     fs.readFileSync = jest
       .fn()
       .mockReturnValue(JSON.stringify({ directories: ["testDir1"] }, null, 2));
 
     expect.assertions(1);
-    return gitStatus().then(() => {
+    return findAllProjects().then(() => {
       expect(gitStatusModules.addReposToIgnoreList.mock.calls.length).toBe(1);
     });
   });
@@ -40,7 +40,7 @@ describe("gitStatus", () => {
       .mockReturnValue(JSON.stringify({ directories: ["testDir1"] }, null, 2));
 
     expect.assertions(1);
-    return gitStatus().then(() => {
+    return findAllProjects().then(() => {
       expect(gitStatusModules.findAllGitRepos.mock.calls.length).toBe(1);
     });
   });
@@ -51,7 +51,7 @@ describe("gitStatus", () => {
       .mockReturnValue(JSON.stringify({ directories: ["testDir1"] }, null, 2));
 
     expect.assertions(1);
-    return gitStatus().then(() => {
+    return findAllProjects().then(() => {
       expect(gitStatusModules.findProjectsNotRepos.mock.calls.length).toBe(1);
     });
   });
@@ -62,7 +62,7 @@ describe("gitStatus", () => {
       .mockReturnValue(JSON.stringify({ directories: ["testDir1"] }, null, 2));
 
     expect.assertions(1);
-    return gitStatus().then(() => {
+    return findAllProjects().then(() => {
       expect(gitStatusModules.findChangedRepos.mock.calls.length).toBe(1);
     });
   });
@@ -73,7 +73,7 @@ describe("gitStatus", () => {
       .mockReturnValue(JSON.stringify({ directories: ["testDir1"] }, null, 2));
 
     expect.assertions(1);
-    return gitStatus().then(() => {
+    return findAllProjects().then(() => {
       expect(gitStatusModules.findReposWithoutRemote.mock.calls.length).toBe(1);
     });
   });
@@ -84,7 +84,7 @@ describe("gitStatus", () => {
       .mockReturnValue(JSON.stringify({ directories: ["testDir1"] }, null, 2));
 
     expect.assertions(1);
-    return gitStatus().then(() => {
+    return findAllProjects().then(() => {
       expect(printReport.mock.calls.length).toBe(1);
     });
   });

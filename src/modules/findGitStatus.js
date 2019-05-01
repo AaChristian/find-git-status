@@ -10,7 +10,12 @@ const {
   addReposToIgnoreList
 } = require("./gitStatus");
 
-const gitStatus = () => {
+/**
+ * Get all potential projects, all git repositories, repos without remote
+ * and repos with changes.
+ * @returns {Promise<>}
+ */
+const findAllProjects = () => {
   return new Promise(async (resolve, reject) => {
     let repositories = [];
     let projectButNotRepo = [];
@@ -65,4 +70,4 @@ const gitStatus = () => {
   });
 };
 
-module.exports = gitStatus;
+module.exports = findAllProjects;
