@@ -1,20 +1,21 @@
 import printTitle from "./printTitle";
 import { findLongestValue, strOfSpaces } from "../../../helpers";
 import { uniqBy } from "lodash";
+import { GitProject } from "../../../types";
 
 /**
  * Print the number of projects and git repositories found
- * @param {Array<object>} repositories
- * @param {Array<object>} projectButNotRepo
- * @param {Array<object>} changedRepos
- * @param {Array<object>} reposWithoutRemote
+ * @param {Array<GitProject>} repositories
+ * @param {Array<GitProject>} projectButNotRepo
+ * @param {Array<GitProject>} changedRepos
+ * @param {Array<GitProject>} reposWithoutRemote
  */
 const printInfoSmall = (
-  repositories,
-  projectButNotRepo,
-  changedRepos,
-  reposWithoutRemote
-) => {
+  repositories: Array<GitProject>,
+  projectButNotRepo: Array<GitProject>,
+  changedRepos: Array<GitProject>,
+  reposWithoutRemote: Array<GitProject>
+): void => {
   console.log(
     "\nProjects found:\t\t\t" + (repositories.length + projectButNotRepo.length)
   );
@@ -26,19 +27,23 @@ const printInfoSmall = (
 
 /**
  * Print out a basic setion, with project/repository name and path columns
- * @param {Array<object>} content The content of the section
+ * @param {Array<GitProject>} content The content of the section
  * @param {string} title The title
  * @param {string} nameHeader The header value of the name of the project/repository
  */
-const printBasicSection = (content, title, nameHeader) => {
+const printBasicSection = (
+  content: Array<GitProject>,
+  title: string,
+  nameHeader: string
+): void => {
   if (content.length === 0) {
     return;
   }
   // Print header/title
   printTitle(title, content.length);
 
-  const longestValue = findLongestValue(content, "name");
-  let spaces = strOfSpaces(nameHeader, longestValue);
+  const longestValue: number = findLongestValue(content, "name");
+  let spaces: string = strOfSpaces(nameHeader, longestValue);
 
   console.log(`${nameHeader}${spaces}| Path`);
   console.log("-".repeat(process.stdout.columns - 1));
@@ -52,21 +57,21 @@ const printBasicSection = (content, title, nameHeader) => {
 
 /**
  * Print section for the repositories that have changes
- * @param {Array<object>} changedRepos The changed repositories
+ * @param {Array<GitProject>} changedRepos The changed repositories
  */
-const printChangedRepos = changedRepos => {
+const printChangedRepos = (changedRepos: Array<GitProject>): void => {
   if (changedRepos.length === 0) {
     return;
   }
 
-  const titleText = "Repositories with uncommited changes";
+  const titleText: string = "Repositories with uncommited changes";
   printTitle(titleText, changedRepos.length);
 
-  const longestName = findLongestValue(changedRepos, "name");
-  const longestPath = findLongestValue(changedRepos, "path");
+  const longestName: number = findLongestValue(changedRepos, "name");
+  const longestPath: number = findLongestValue(changedRepos, "path");
 
-  let spacesName = strOfSpaces("Repository", longestName);
-  let spacesPath = strOfSpaces("Path", longestPath);
+  let spacesName: string = strOfSpaces("Repository", longestName);
+  let spacesPath: string = strOfSpaces("Path", longestPath);
 
   console.log(`Repository${spacesName}| Path${spacesPath}| Changes`);
   console.log("-".repeat(process.stdout.columns - 1));
@@ -79,8 +84,8 @@ const printChangedRepos = changedRepos => {
         name = repo.name;
         path = repo.path;
       }
-      const spacesName = strOfSpaces(name, longestName);
-      const spacesPath = strOfSpaces(path, longestPath);
+      const spacesName: string = strOfSpaces(name, longestName);
+      const spacesPath: string = strOfSpaces(path, longestPath);
 
       console.log(`${name}${spacesName}| ${path}${spacesPath}| ${change}`);
     });
@@ -91,18 +96,24 @@ const printChangedRepos = changedRepos => {
 /**
  * Print out the status of the found git repositories. The following is printed
  * out for each repository: Modified, deleted and untracked files
- * @param {Array<object>} repositories The git repositories
- * @param {Array<object>} changedRepos The git repositories with changes
+ * @param {Array<GitProject>} repositories The git repositories
+ * @param {Array<GitProject>} changedRepos The git repositories with changes
  */
-const printReposStatus = (repositories, changedRepos) => {
+const printReposStatus = (
+  repositories: Array<GitProject>,
+  changedRepos: Array<GitProject>
+): void => {
   // Remove duplicate repos by looking at the repos path
-  const uniqueRepos = uniqBy([...changedRepos, ...repositories], "path");
+  const uniqueRepos: Array<GitProject> = uniqBy(
+    [...changedRepos, ...repositories],
+    "path"
+  );
 
   /**
    * Create header string of file changes to keep track of
    */
-  const statusToTrack = ["M", "D", "U"];
-  const spacesFileCount = strOfSpaces(".", 3);
+  const statusToTrack: string[] = ["M", "D", "U"];
+  const spacesFileCount: string = strOfSpaces(".", 3);
   let headerFilesTrack = "";
   for (let i = 0; i < statusToTrack.length; i++) {
     const element = statusToTrack[i];
@@ -112,11 +123,11 @@ const printReposStatus = (repositories, changedRepos) => {
     }
   }
 
-  const longestName = findLongestValue(uniqueRepos, "name");
-  const spacesName = strOfSpaces("Repository", longestName);
+  const longestName: number = findLongestValue(uniqueRepos, "name");
+  const spacesName: string = strOfSpaces("Repository", longestName);
 
   // Example: Repository M(modified) D(deleted) U(untracked)
-  const header = `Repository${spacesName} ${headerFilesTrack}`;
+  const header: string = `Repository${spacesName} ${headerFilesTrack}`;
   console.log(header);
   console.log("-".repeat(header.length));
 
@@ -131,7 +142,7 @@ const printReposStatus = (repositories, changedRepos) => {
     if (repo.changes) {
       repo.changes.forEach(change => {
         // Get the first two characters of the "changes" element
-        const changeType = change.substring(0, 2);
+        const changeType: string = change.substring(0, 2);
         switch (changeType) {
           case " M":
             filesFound.modified++;
@@ -157,7 +168,7 @@ const printReposStatus = (repositories, changedRepos) => {
     });
 
     // Log the results for the repo
-    const spacesName = strOfSpaces(repo.name, longestName);
+    const spacesName: string = strOfSpaces(repo.name, longestName);
     console.log(`${repo.name}${spacesName} ${resultFoundString}`);
   });
 };
