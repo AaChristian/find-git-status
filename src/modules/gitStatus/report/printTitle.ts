@@ -1,9 +1,9 @@
 /**
  * Print the title/header for a section of the report
  * @param {string} titleText The title of the report section
- * @param {*} found Number of results found for the section
+ * @param {number} found Number of results found for the section
  */
-const printTitle = (titleText, found) => {
+const printTitle = (titleText: string, found: number): void => {
   const cliLength = process.stdout.columns - 1;
 
   console.log("=".repeat(cliLength));
@@ -12,4 +12,4 @@ const printTitle = (titleText, found) => {
   console.log("=".repeat(cliLength));
 };
 
-module.exports = printTitle;
+export default printTitle;

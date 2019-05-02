@@ -1,11 +1,12 @@
-const printTitle = require("../../../../../../src/modules/gitStatus/report/printTitle");
+// const printTitle = require("../../../../../../src/modules/gitStatus/report/printTitle");
+import printTitle from "../../../../../../src/modules/gitStatus/report/printTitle";
 
 let outputData = "";
-storeLog = inputs => (outputData += inputs + "\n");
+const storeLog = (inputs: string): string => (outputData += inputs + "\n");
 console.log = jest.fn(storeLog);
 
 afterEach(() => {
-  outputData = [];
+  outputData = "";
 });
 
 describe("printTitle", () => {
