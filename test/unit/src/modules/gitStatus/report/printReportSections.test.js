@@ -4,14 +4,14 @@ const {
   printChangedRepos,
   printReposStatus
 } = require("../../../../../../src/modules/gitStatus/report/printReportSections");
-const printTitle = require("../../../../../../src/modules/gitStatus/report/printTitle");
+import printTitle from "../../../../../../src/modules/gitStatus/report/printTitle";
 const helpers = require("../../../../../../src/helpers");
 
 jest.mock("../../../../../../src/modules/gitStatus/report/printTitle");
 jest.mock("../../../../../../src/helpers");
 
 let outputData = "";
-storeLog = inputs => (outputData += inputs + "\n");
+const storeLog = inputs => (outputData += inputs + "\n");
 console.log = jest.fn(storeLog);
 
 beforeEach(() => {
