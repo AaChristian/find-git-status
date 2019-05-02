@@ -1,6 +1,6 @@
-const printTitle = require("./printTitle");
-const { findLongestValue, strOfSpaces } = require("../../../helpers");
-const uniqBy = require("lodash/uniqBy");
+import printTitle from "./printTitle";
+import { findLongestValue, strOfSpaces } from "../../../helpers";
+import { uniqBy } from "lodash";
 
 /**
  * Print the number of projects and git repositories found
