@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "outDir": "./build",
+    "target": "es2018",
+    "moduleResolution": "node",
+    "module": "commonjs"
+  },
+  "include": ["./src/**/*"]
+}

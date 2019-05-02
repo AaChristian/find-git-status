@@ -5,6 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node src/app",
+    "build": "node_modules/.bin/tsc",
+    "build-watch": "node_modules/.bin/tsc --watch",
     "test": "npx jest",
     "test-watch": "npx jest --watchAll",
     "test-coverage": "npx jest --coverage"
@@ -20,7 +22,14 @@
     "promisify-child-process": "^3.1.0"
   },
   "devDependencies": {
+    "@types/jest": "^24.0.12",
     "jest": "^24.7.1",
-    "mock-fs": "^4.9.0"
+    "mock-fs": "^4.9.0",
+    "ts-jest": "^24.0.2",
+    "typescript": "^3.4.5"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node"
   }
 }
