@@ -55,4 +55,4 @@ const findChangedRepos = async repositories => {
   });
 };
 
-module.exports = findChangedRepos;
+export default findChangedRepos;

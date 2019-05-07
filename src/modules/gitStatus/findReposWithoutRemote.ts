@@ -51,4 +51,4 @@ const findReposWithoutRemote = async repositories => {
   });
 };
 
-module.exports = findReposWithoutRemote;
+export default findReposWithoutRemote;

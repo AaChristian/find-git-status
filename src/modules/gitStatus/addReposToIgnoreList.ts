@@ -27,4 +27,4 @@ const addReposToIgnoreList = (repositories, globalConfig) => {
   });
 };
 
-module.exports = addReposToIgnoreList;
+export default addReposToIgnoreList;

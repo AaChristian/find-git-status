@@ -47,4 +47,4 @@ const findAllGitRepos = (directory, globOptions) => {
   });
 };
 
-module.exports = findAllGitRepos;
+export default findAllGitRepos;

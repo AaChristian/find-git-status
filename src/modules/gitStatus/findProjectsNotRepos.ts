@@ -68,4 +68,4 @@ const findProjectsNotRepos = (repositories, directory, globalConfig) => {
   });
 };
 
-module.exports = findProjectsNotRepos;
+export default findProjectsNotRepos;
