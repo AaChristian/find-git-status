@@ -1,12 +1,13 @@
-const fs = require("fs");
+import * as fs from "fs";
+import { GitProject, UserOptions } from "./types";
 
 /**
  * Crate config if it does not already exists
  * @param {string} path The path to config
  * @returns {Promise<void>}
  */
-export const createConfigIfNotExist = path => {
-  return new Promise((resolve, reject) => {
+export const createConfigIfNotExist = (path: string): Promise<void> => {
+  return new Promise<void>((resolve, reject) => {
     const defaultConfig = { directories: [] };
     if (!fs.existsSync(path)) {
       fs.writeFileSync(path, JSON.stringify(defaultConfig, null, 2), "utf-8");
@@ -22,7 +23,10 @@ export const createConfigIfNotExist = path => {
  * @param {string} property The property of the object
  * @returns {number} The length of the longest value
  */
-export const findLongestValue = (array, property) => {
+export const findLongestValue = (
+  array: Array<GitProject>,
+  property: string
+): number => {
   let length = 0;
   array.forEach(obj => {
     const str = obj[property];
@@ -42,7 +46,7 @@ export const findLongestValue = (array, property) => {
  * @param {number} longestValue   The length to compare against
  * @returns {string} The string of spaces
  */
-export const strOfSpaces = (str, longestValue) => {
+export const strOfSpaces = (str: string, longestValue: number): string => {
   const padding = 1;
   const lengthDiff = longestValue - str.length;
   const tab = " ".repeat(lengthDiff > 0 ? lengthDiff + padding : padding);
@@ -53,11 +57,14 @@ export const strOfSpaces = (str, longestValue) => {
  * Find the longest length of elements in the valid options/arguments.
  * First all the elements in the array is joined with a seperator,
  * then the length is evaluated.
- * @param {object} object    The object to search
+ * @param {UserOptions} object The object to search
  * @param {string} seperator Seperate the elements with this optional string
  * @returns {number}  The length of the longest joined list
  */
-export const lengthOfLongestOptionsList = (options, seperator = ", ") => {
+export const lengthOfLongestOptionsList = (
+  options: UserOptions,
+  seperator: string = ", "
+): number => {
   let length = 0;
   Object.keys(options).forEach(key => {
     const str = options[key].valid.join(seperator);
