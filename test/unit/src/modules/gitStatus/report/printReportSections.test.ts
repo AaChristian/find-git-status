@@ -5,27 +5,28 @@ import {
   printReposStatus
 } from "../../../../../../src/modules/gitStatus/report/printReportSections";
 import printTitle from "../../../../../../src/modules/gitStatus/report/printTitle";
-const helpers = require("../../../../../../src/helpers");
+import * as helpers from "../../../../../../src/helpers";
 import { mocked } from "ts-jest/utils";
 
 jest.mock("../../../../../../src/modules/gitStatus/report/printTitle");
 jest.mock("../../../../../../src/helpers");
 
 const mockedPrintTitle = mocked(printTitle);
+const mockedHelpers = mocked(helpers);
 
 let outputData = "";
 const storeLog = (inputs: string): string => (outputData += inputs + "\n");
 console.log = jest.fn(storeLog);
 
 beforeEach(() => {
-  helpers.strOfSpaces.mockReturnValue("");
+  mockedHelpers.strOfSpaces.mockReturnValue("");
 });
 
 afterEach(() => {
   outputData = "";
   mockedPrintTitle.mockReset();
-  helpers.findLongestValue.mockReset();
-  helpers.strOfSpaces.mockReset();
+  mockedHelpers.findLongestValue.mockReset();
+  mockedHelpers.strOfSpaces.mockReset();
 });
 
 describe("printInfoSmall", () => {
@@ -59,8 +60,8 @@ describe("printBasicSection", () => {
     printBasicSection(repositories, "Test title one", "Repository");
 
     expect(mockedPrintTitle.mock.calls.length).toBe(0);
-    expect(helpers.findLongestValue.mock.calls.length).toBe(0);
-    expect(helpers.strOfSpaces.mock.calls.length).toBe(0);
+    expect(mockedHelpers.findLongestValue.mock.calls.length).toBe(0);
+    expect(mockedHelpers.strOfSpaces.mock.calls.length).toBe(0);
     expect(outputData.length).toBe(0);
   });
 
@@ -75,8 +76,8 @@ describe("printBasicSection", () => {
     outputData = outputData.trim().replace(/\t+/g, " ");
 
     expect(mockedPrintTitle.mock.calls.length).toBe(1);
-    expect(helpers.findLongestValue.mock.calls.length).toBe(1);
-    expect(helpers.strOfSpaces.mock.calls.length).toBe(4); // Should be 1 + number of repos
+    expect(mockedHelpers.findLongestValue.mock.calls.length).toBe(1);
+    expect(mockedHelpers.strOfSpaces.mock.calls.length).toBe(4); // Should be 1 + number of repos
     expect(outputData).toMatch("test one| path/one");
     expect(outputData).toMatch("test two| path/two");
     expect(outputData).toMatch("test three| path/three");
@@ -90,8 +91,8 @@ describe("printChangedRepos", () => {
     printChangedRepos(changedRepos);
 
     expect(mockedPrintTitle.mock.calls.length).toBe(0);
-    expect(helpers.findLongestValue.mock.calls.length).toBe(0);
-    expect(helpers.strOfSpaces.mock.calls.length).toBe(0);
+    expect(mockedHelpers.findLongestValue.mock.calls.length).toBe(0);
+    expect(mockedHelpers.strOfSpaces.mock.calls.length).toBe(0);
     expect(outputData.length).toBe(0);
   });
 
@@ -109,8 +110,8 @@ describe("printChangedRepos", () => {
     outputData = outputData.trim().replace(/\t+/g, " ");
 
     expect(mockedPrintTitle.mock.calls.length).toBe(1);
-    expect(helpers.findLongestValue.mock.calls.length).toBe(2);
-    expect(helpers.strOfSpaces.mock.calls.length).toBe(8); // Should be 2 + 2 * number of changes total
+    expect(mockedHelpers.findLongestValue.mock.calls.length).toBe(2);
+    expect(mockedHelpers.strOfSpaces.mock.calls.length).toBe(8); // Should be 2 + 2 * number of changes total
     expect(outputData).toMatch("test one| path/one|  M README.md");
     expect(outputData).toMatch("test two| path/two| ?? src/newfile.txt");
     expect(outputData).toMatch("|  M .env");
@@ -150,10 +151,12 @@ describe("printReposStatus", () => {
 
     outputData = outputData.trim().replace(/\  +/gm, " ");
 
-    expect(helpers.findLongestValue.mock.calls.length).toBe(1);
+    expect(mockedHelpers.findLongestValue.mock.calls.length).toBe(1);
 
     // strOfSpaces should be called 1 + number of repos
-    expect(helpers.strOfSpaces.mock.calls.length).toBeGreaterThanOrEqual(2);
+    expect(mockedHelpers.strOfSpaces.mock.calls.length).toBeGreaterThanOrEqual(
+      2
+    );
 
     expect(outputData).toMatch("Repository MDU");
     expect(outputData).toMatch("test one 110");
