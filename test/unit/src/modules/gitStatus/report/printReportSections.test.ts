@@ -1,9 +1,9 @@
-const {
+import {
   printInfoSmall,
   printBasicSection,
   printChangedRepos,
   printReposStatus
-} = require("../../../../../../src/modules/gitStatus/report/printReportSections");
+} from "../../../../../../src/modules/gitStatus/report/printReportSections";
 import printTitle from "../../../../../../src/modules/gitStatus/report/printTitle";
 const helpers = require("../../../../../../src/helpers");
 import { mocked } from "ts-jest/utils";
@@ -30,10 +30,11 @@ afterEach(() => {
 
 describe("printInfoSmall", () => {
   test("should print correct title information", () => {
-    const repositories = [{}, {}, {}];
-    const projectButNotRepo = [{}, {}, {}, {}];
-    const changedRepos = [{}];
-    const reposWithoutRemote = [{}, {}];
+    const obj = { name: "", path: "" };
+    const repositories = [obj, obj, obj];
+    const projectButNotRepo = [obj, obj, obj, obj];
+    const changedRepos = [obj];
+    const reposWithoutRemote = [obj, obj];
     printInfoSmall(
       repositories,
       projectButNotRepo,

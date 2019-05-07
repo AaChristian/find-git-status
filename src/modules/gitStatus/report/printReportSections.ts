@@ -10,7 +10,7 @@ import { GitProject } from "../../../types";
  * @param {Array<GitProject>} changedRepos
  * @param {Array<GitProject>} reposWithoutRemote
  */
-const printInfoSmall = (
+export const printInfoSmall = (
   repositories: Array<GitProject>,
   projectButNotRepo: Array<GitProject>,
   changedRepos: Array<GitProject>,
@@ -31,7 +31,7 @@ const printInfoSmall = (
  * @param {string} title The title
  * @param {string} nameHeader The header value of the name of the project/repository
  */
-const printBasicSection = (
+export const printBasicSection = (
   content: Array<GitProject>,
   title: string,
   nameHeader: string
@@ -59,7 +59,7 @@ const printBasicSection = (
  * Print section for the repositories that have changes
  * @param {Array<GitProject>} changedRepos The changed repositories
  */
-const printChangedRepos = (changedRepos: Array<GitProject>): void => {
+export const printChangedRepos = (changedRepos: Array<GitProject>): void => {
   if (changedRepos.length === 0) {
     return;
   }
@@ -99,7 +99,7 @@ const printChangedRepos = (changedRepos: Array<GitProject>): void => {
  * @param {Array<GitProject>} repositories The git repositories
  * @param {Array<GitProject>} changedRepos The git repositories with changes
  */
-const printReposStatus = (
+export const printReposStatus = (
   repositories: Array<GitProject>,
   changedRepos: Array<GitProject>
 ): void => {
@@ -171,11 +171,4 @@ const printReposStatus = (
     const spacesName: string = strOfSpaces(repo.name, longestName);
     console.log(`${repo.name}${spacesName} ${resultFoundString}`);
   });
-};
-
-module.exports = {
-  printInfoSmall,
-  printBasicSection,
-  printChangedRepos,
-  printReposStatus
 };
