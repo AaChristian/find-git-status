@@ -5,7 +5,7 @@ const fs = require("fs");
  * @param {string} path The path to config
  * @returns {Promise<void>}
  */
-const createConfigIfNotExist = path => {
+export const createConfigIfNotExist = path => {
   return new Promise((resolve, reject) => {
     const defaultConfig = { directories: [] };
     if (!fs.existsSync(path)) {
@@ -22,7 +22,7 @@ const createConfigIfNotExist = path => {
  * @param {string} property The property of the object
  * @returns {number} The length of the longest value
  */
-const findLongestValue = (array, property) => {
+export const findLongestValue = (array, property) => {
   let length = 0;
   array.forEach(obj => {
     const str = obj[property];
@@ -42,7 +42,7 @@ const findLongestValue = (array, property) => {
  * @param {number} longestValue   The length to compare against
  * @returns {string} The string of spaces
  */
-const strOfSpaces = (str, longestValue) => {
+export const strOfSpaces = (str, longestValue) => {
   const padding = 1;
   const lengthDiff = longestValue - str.length;
   const tab = " ".repeat(lengthDiff > 0 ? lengthDiff + padding : padding);
@@ -57,7 +57,7 @@ const strOfSpaces = (str, longestValue) => {
  * @param {string} seperator Seperate the elements with this optional string
  * @returns {number}  The length of the longest joined list
  */
-const lengthOfLongestOptionsList = (options, seperator = ", ") => {
+export const lengthOfLongestOptionsList = (options, seperator = ", ") => {
   let length = 0;
   Object.keys(options).forEach(key => {
     const str = options[key].valid.join(seperator);
@@ -66,11 +66,4 @@ const lengthOfLongestOptionsList = (options, seperator = ", ") => {
     }
   });
   return length;
-};
-
-module.exports = {
-  createConfigIfNotExist,
-  findLongestValue,
-  strOfSpaces,
-  lengthOfLongestOptionsList
 };
