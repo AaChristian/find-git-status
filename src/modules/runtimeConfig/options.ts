@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   help: {
     valid: ["-h", "-?", "--help"],
     description: "Prints help information"

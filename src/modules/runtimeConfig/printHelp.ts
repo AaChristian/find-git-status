@@ -18,4 +18,4 @@ const printHelp = options => {
   });
 };
 
-module.exports = printHelp;
+export default printHelp;

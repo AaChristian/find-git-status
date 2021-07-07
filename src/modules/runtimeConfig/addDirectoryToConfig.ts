@@ -7,7 +7,7 @@ const { createConfigIfNotExist } = require("../../helpers");
  * @param {string} configPath The path to the config file
  * @returns {Promise<>}
  */
-const addDirectoryToConfig = (directory, configPath) => {
+const addDirectoryToConfig = (directory, configPath): Promise<void> => {
   return new Promise(async (resolve, reject) => {
     // If the directory is not specified
     if (directory == "" || directory.slice(0, 1) === "-") {
@@ -21,7 +21,7 @@ const addDirectoryToConfig = (directory, configPath) => {
     // TOOD: Allow both types of slashes in configPath
 
     // Read current config from file
-    let config = JSON.parse(fs.readFileSync(configPath), "utf-8");
+    let config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
 
     // If the directory already exists in config, reject with message
     if (config.directories.includes(directory)) {
@@ -40,4 +40,4 @@ const addDirectoryToConfig = (directory, configPath) => {
   });
 };
 
-module.exports = addDirectoryToConfig;
+export default addDirectoryToConfig;
