@@ -24,7 +24,7 @@ let globOptions = {
   dot: true
 };
 
-module.exports = {
+export {
   isProjectCheck,
   ignoreDirs,
   globOptions

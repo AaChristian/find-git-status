@@ -1,8 +1,4 @@
-const {
-  printInfoSmall,
-  printBasicSection,
-  printChangedRepos
-} = require("./gitStatus/report/printReportSections");
+import { printInfoSmall, printBasicSection, printChangedRepos } from "./gitStatus/report/printReportSections";
 
 /**
  * Print out a complete report of the results
@@ -51,4 +47,4 @@ const printReport = (
 };
 
 // TODO: Only export the constant instead of object
-module.exports = printReport;
+export default printReport;

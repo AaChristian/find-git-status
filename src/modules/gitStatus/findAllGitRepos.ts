@@ -1,13 +1,17 @@
-const glob = require("glob");
+import glob from "glob";
+import { GitProject, GlobOptions } from "../../types";
 
 /**
  * Find all git repositires within a directory
  * @param {string} directory The directory to search
- * @param {object.object} globOptions Options to use whiole searching for potential projects
- * @returns {Promise<object>} The repositories found
+ * @param {GlobOptions} globOptions Options to use whiole searching for potential projects
+ * @returns {Promise<GitProject[]>} The repositories found
  */
-const findAllGitRepos = (directory, globOptions) => {
-  return new Promise((resolve, reject) => {
+const findAllGitRepos = (
+  directory: string,
+  globOptions: GlobOptions
+): Promise<GitProject[]> => {
+  return new Promise<GitProject[]>((resolve, reject) => {
     // If not all arguments is given, reject
     if (
       typeof directory === "undefined" ||
@@ -17,17 +21,17 @@ const findAllGitRepos = (directory, globOptions) => {
       return;
     }
 
-    const repositories = [];
+    const repositories: any = [];
 
     // Search the directory and subdirectories for git repositories
-    glob(directory + "/**/*git", globOptions, (err, res) => {
+    glob(directory + "/**/*git", globOptions, (err: any, res: string[]) => {
       if (err) {
         console.log("Error", err);
       } else {
         // Sort ascending by length of path
-        res.sort((a, b) => a.length - b.length);
+        res.sort((a: string, b: string) => a.length - b.length);
 
-        res.forEach(path => {
+        res.forEach((path: string) => {
           // Get the name of the repo (directory)
           const repo = path.split("/").slice(-2)[0];
 

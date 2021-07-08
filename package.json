@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node src/app",
+    "start": "node dist/app",
     "build": "node_modules/.bin/tsc",
     "build-watch": "node_modules/.bin/tsc --watch",
     "test": "npx jest",
@@ -14,8 +14,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/lodash": "^4.14.123",
-    "@types/node": "^11.13.8",
     "async": "^2.6.1",
     "dotenv": "^6.2.0",
     "easy-table": "^1.1.1",
@@ -24,7 +22,11 @@
     "promisify-child-process": "^3.1.0"
   },
   "devDependencies": {
+    "@types/glob": "^7.1.3",
     "@types/jest": "^24.0.12",
+    "@types/lodash": "^4.14.123",
+    "@types/mock-fs": "^3.6.30",
+    "@types/node": "^11.13.8",
     "jest": "^24.7.1",
     "mock-fs": "^4.9.0",
     "ts-jest": "^24.0.2",

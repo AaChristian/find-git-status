@@ -12,3 +12,14 @@ export interface Option {
 export interface UserOptions {
   [key: string]: Option;
 }
+
+export interface GlobOptions {
+  ignore: string[];
+  dot: boolean;
+}
+
+export interface GlobalConfig {
+  isProjectCheck: string[];
+  ignoreDirs: string[];
+  globOptions: GlobOptions;
+}

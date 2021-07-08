@@ -4,7 +4,7 @@ import findProjectsNotRepos from "./findProjectsNotRepos";
 import findReposWithoutRemote from "./findReposWithoutRemote";
 import addReposToIgnoreList from "./addReposToIgnoreList";
 
-module.exports = {
+export {
   findAllGitRepos,
   findChangedRepos,
   findProjectsNotRepos,

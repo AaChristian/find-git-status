@@ -1,3 +1,5 @@
+import { GitProject } from "../../types";
+
 const { exec } = require("child_process");
 
 /**
@@ -5,13 +7,13 @@ const { exec } = require("child_process");
  * @param {Array<object>} repositories The repositories to check
  * @returns {Promise<Array<object>>} The outdated repositories, with name, path and changes
  */
-const findReposWithoutRemote = async repositories => {
+const findReposWithoutRemote = async (repositories: GitProject[]): Promise<GitProject[]> => {
   /**
    * Check if the repository has a remote URL
    * @param {object} repo The repo to check
    * @returns {Promise<object | null} Returns the repo if it does NOT have a remote, else null
    */
-  const findGitRemote = repo => {
+  const findGitRemote = (repo: GitProject): Promise<GitProject> => {
     return new Promise(async (resolve, reject) => {
       // The command to execute to check for remote
       const command = "git config --get remote.origin.url";
@@ -36,7 +38,7 @@ const findReposWithoutRemote = async repositories => {
 
   return new Promise((resolve, reject) => {
     Promise.all(repositories.map(repo => findGitRemote(repo))).then(result => {
-      let reposWithoutRemote = [];
+      let reposWithoutRemote: GitProject[] = [];
 
       // For all results from the promises, only push to reposWithoutRemote arry
       // if the result is not null, ie if the repo does not have remote.

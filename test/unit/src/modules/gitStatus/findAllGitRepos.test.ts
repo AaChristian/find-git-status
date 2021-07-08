@@ -1,26 +1,27 @@
-const mockFs = require("mock-fs");
-const { findAllGitRepos } = require("../../../../../src/modules/gitStatus");
-const { globOptions } = require("../../../../../src/globalConfig");
+const mockedFs = require("mock-fs");
+import { findAllGitRepos } from "../../../../../src/modules/gitStatus";
+import { globOptions } from "../../../../../src/globalConfig";
+import { mocked } from "ts-jest/utils";
 
 beforeEach(() => {
-  mockFs.mock();
+  mockedFs.mock();
 });
 
 afterEach(() => {
-  mockFs.restore();
+  mockedFs.restore();
 });
 
 describe("findAllGitRepos", () => {
   test("should reject if no arguments given", () => {
     expect.assertions(1);
-    return findAllGitRepos().catch(error => {
+    return findAllGitRepos(undefined, undefined).catch(error => {
       expect(error).toMatch("Missing arguments");
     });
   });
 
   test("should reject if only one argument is given", () => {
     expect.assertions(1);
-    return findAllGitRepos().catch(error => {
+    return findAllGitRepos("", undefined).catch(error => {
       expect(error).toMatch("Missing arguments");
     });
   });
@@ -33,7 +34,7 @@ describe("findAllGitRepos", () => {
   });
 
   test("should return empty array if directory is not a git repo", () => {
-    mockFs.mock({
+    mockedFs.mock({
       testDir: {
         dir1: {
           "test.txt": "file content"
@@ -49,7 +50,7 @@ describe("findAllGitRepos", () => {
   });
 
   test("should return empty array even if a directory inside node_modules is a git repository", () => {
-    mockFs.mock({
+    mockedFs.mock({
       testDir: {
         dir1: {
           "test.txt": "file content",
@@ -66,7 +67,7 @@ describe("findAllGitRepos", () => {
   });
 
   test("should return array with one element", () => {
-    mockFs.mock({
+    mockedFs.mock({
       testDir: {
         dir1: { "test.txt": "file content", dir2: {} },
         dir2: {
@@ -86,7 +87,7 @@ describe("findAllGitRepos", () => {
   });
 
   test("should return array with 3 elements", () => {
-    mockFs.mock({
+    mockedFs.mock({
       testDir: {
         dir1: { "test.txt": "file content", dir2: {} },
         dir2: {

@@ -1,22 +1,16 @@
-const fs = require("fs");
-const path = require("path");
+import fs from "fs";
+import path from "path";
 let globalConfig = require("../globalConfig");
-const printReport = require("./printReport");
-const { printReposStatus } = require("./gitStatus/report/printReportSections");
-const {
-  findAllGitRepos,
-  findChangedRepos,
-  findProjectsNotRepos,
-  findReposWithoutRemote,
-  addReposToIgnoreList
-} = require("./gitStatus");
+import printReport from "./printReport";
+import { printReposStatus } from "./gitStatus/report/printReportSections";
+import { findAllGitRepos, findChangedRepos, findProjectsNotRepos, findReposWithoutRemote, addReposToIgnoreList } from "./gitStatus";
 
 /**
  * Get all potential projects, all git repositories, repos without remote
  * and repos with changes.
  * @returns {Promise<>}
  */
-const findAllProjects = () => {
+export const findAllProjects = (): Promise<void> => {
   return new Promise(async (resolve, reject) => {
     let repositories = [];
     let projectButNotRepo = [];
@@ -30,12 +24,15 @@ const findAllProjects = () => {
     for (let i = 0; i < directories.length; i++) {
       const directory = directories[i];
       console.log("Searching " + directory);
+      console.log("globalConfig:", globalConfig);
 
       // Find all dirs where .git dir exist
       const reposInDir = await findAllGitRepos(
         directory,
         globalConfig.globOptions
       );
+
+      console.log("1251654146161");
 
       // Add repos to ignore list, return the updated config
       globalConfig = await addReposToIgnoreList(reposInDir, globalConfig);
@@ -46,6 +43,8 @@ const findAllProjects = () => {
         directory,
         globalConfig
       );
+
+
 
       // Check git status on repos
       const changedReposInDIr = await findChangedRepos(reposInDir);
@@ -59,6 +58,8 @@ const findAllProjects = () => {
       reposWithoutRemote = [...reposWithoutRemote, ...reposWithoutRemoteInDir];
     }
 
+
+
     // Print report of findings
     printReport(
       repositories,
@@ -71,7 +72,7 @@ const findAllProjects = () => {
   });
 };
 
-const findGitStatusSmall = () => {
+export const findGitStatusSmall = (): Promise<void> => {
   return new Promise(async (resolve, reject) => {
     let repositories = [];
     let changedRepos = [];
@@ -100,5 +101,3 @@ const findGitStatusSmall = () => {
     resolve();
   });
 };
-
-module.exports = { findAllProjects, findGitStatusSmall };

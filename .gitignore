@@ -1,6 +1,6 @@
 node_modules
 .env
-build
+dist
 coverage
 config.js
 config.json

@@ -1,3 +1,5 @@
+import { GitProject } from "../../types";
+
 const glob = require("glob");
 
 /**
@@ -7,7 +9,7 @@ const glob = require("glob");
  * @param {object} globalConfig The globalConfig
  * @returns {Promise<object>} The projects
  */
-const findProjectsNotRepos = (repositories, directory, globalConfig) => {
+const findProjectsNotRepos = (repositories, directory, globalConfig): Promise<GitProject[]> => {
   return new Promise((resolve, reject) => {
     // If not all arguments is given, reject
     if (
@@ -20,7 +22,7 @@ const findProjectsNotRepos = (repositories, directory, globalConfig) => {
     }
 
     const { isProjectCheck, globOptions } = globalConfig;
-    const projectButNotRepo = [];
+    const projectButNotRepo: GitProject[] = [];
 
     // The glob search pattern
     const projectCheckPattern =

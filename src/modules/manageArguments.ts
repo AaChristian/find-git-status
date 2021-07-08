@@ -1,7 +1,7 @@
-const path = require("path");
-const { options, addDirectoryToConfig, printHelp } = require("./runtimeConfig");
-const { findGitStatusSmall } = require("./findGitProjects");
-const { createConfigIfNotExist } = require("../helpers");
+import path from "path";
+import { options, addDirectoryToConfig, printHelp } from "./runtimeConfig";
+import { findGitStatusSmall } from "./findGitProjects";
+import { createConfigIfNotExist } from "../helpers";
 
 const configPath = path.resolve(__dirname, "../../config.json");
 
@@ -10,7 +10,7 @@ const configPath = path.resolve(__dirname, "../../config.json");
  * @param {any} arg The argument to check
  * @returns {boolean}
  */
-const isFirstRealArgumentSet = arg => {
+export const isFirstRealArgumentSet = arg => {
   return typeof arg === "string" && arg !== "";
 };
 
@@ -20,7 +20,7 @@ const isFirstRealArgumentSet = arg => {
  * @param {Array<string>} argumentArray The list of arguments to check against
  * @returns {boolean}
  */
-const isSubstringInArgumentArray = (arg, argumentArray) => {
+export const isSubstringInArgumentArray = (arg, argumentArray) => {
   const index = argumentArray.findIndex(el => el.includes(arg));
   return index !== -1 ? true : false;
 };
@@ -30,7 +30,7 @@ const isSubstringInArgumentArray = (arg, argumentArray) => {
  * @param {Array<string>} userArguments The command line arguments
  * @return {Promise<>}
  */
-const processArguments = userArguments => {
+export const processArguments = (userArguments): Promise<void> => {
   return new Promise(async (resolve, reject) => {
     try {
       /**
@@ -55,7 +55,7 @@ const processArguments = userArguments => {
        * Get git repositories and print a compact table for them
        */
       if (options.statusSmall.valid.includes(userArguments[0])) {
-        await findGitStatusSmall(configPath);
+        await findGitStatusSmall();
         resolve();
         return;
       }
@@ -76,10 +76,4 @@ const processArguments = userArguments => {
       console.log(error);
     }
   });
-};
-
-module.exports = {
-  processArguments,
-  isFirstRealArgumentSet,
-  isSubstringInArgumentArray
 };
