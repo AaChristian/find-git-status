@@ -1,7 +1,6 @@
 const mockFs = require("mock-fs");
 import fs from "fs";
-import { createConfigIfNotExist, findLongestValue, strOfSpaces, lengthOfLongestOptionsList } from "../../../src/helpers";
-import { GitProject } from "../../../src/types";
+import { createConfigIfNotExist, findLongestValue, lengthOfLongestOptionsList, strOfSpaces } from "../src/helpers";
 
 beforeEach(() => {
   mockFs.mock();

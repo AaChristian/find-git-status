@@ -3,13 +3,13 @@ import {
   printBasicSection,
   printChangedRepos,
   printReposStatus
-} from "../../../../../../src/modules/gitStatus/report/printReportSections";
-import printTitle from "../../../../../../src/modules/gitStatus/report/printTitle";
-import * as helpers from "../../../../../../src/helpers";
+} from "../../../../src/modules/gitStatus/report/printReportSections";
+import printTitle from "../../../../src/modules/gitStatus/report/printTitle";
+import * as helpers from "../../../../src/helpers";
 import { mocked } from "ts-jest/utils";
 
-jest.mock("../../../../../../src/modules/gitStatus/report/printTitle");
-jest.mock("../../../../../../src/helpers");
+jest.mock("../../../../src/modules/gitStatus/report/printTitle");
+jest.mock("../../../../src/helpers");
 
 const mockedPrintTitle = mocked(printTitle);
 const mockedHelpers = mocked(helpers);

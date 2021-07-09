@@ -1,8 +1,8 @@
 import { mocked } from "ts-jest/utils";
-import * as helpers from "../../../../../src/helpers";
-import { printHelp } from "../../../../../src/modules/runtimeConfig";
+import * as helpers from "../../../src/helpers";
+import { printHelp } from "../../../src/modules/runtimeConfig";
 
-jest.mock("../../../../../src/helpers");
+jest.mock("../../../src/helpers");
 const mockedHelpers = mocked(helpers);
 
 let outputData: any[] | string = '';

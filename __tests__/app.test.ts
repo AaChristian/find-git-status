@@ -1,10 +1,10 @@
-import start from "../../../src/app";
-import * as findGitProjects from "../../../src/modules/findGitProjects";
-import * as runtimeConfig from ".../../../src/modules/manageArguments";
+import start from "../src/app";
+import * as findGitProjects from "../src/modules/findGitProjects";
+import * as runtimeConfig from "../src/modules/manageArguments";
 import { mocked } from "ts-jest/utils";
 
-jest.mock("../../../src/modules/findGitProjects");
-jest.mock("../../../src/modules/manageArguments");
+jest.mock("../src/modules/findGitProjects");
+jest.mock("../src/modules/manageArguments");
 const { findAllProjects } = mocked(findGitProjects);
 const runtimeConfigMock = mocked(runtimeConfig);
 

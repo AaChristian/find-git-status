@@ -1,5 +1,4 @@
-// const printTitle = require("../../../../../../src/modules/gitStatus/report/printTitle");
-import printTitle from "../../../../../../src/modules/gitStatus/report/printTitle";
+import printTitle from "../../../../src/modules/gitStatus/report/printTitle";
 
 let outputData = "";
 const storeLog = (inputs: string): string => (outputData += inputs + "\n");

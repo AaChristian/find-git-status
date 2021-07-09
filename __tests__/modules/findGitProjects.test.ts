@@ -1,13 +1,13 @@
-import { findAllProjects, findGitStatusSmall } from "../../../../src/modules/findGitProjects";
-import * as gitStatus from "../../../../src/modules/gitStatus";
-import printReport from "../../../../src/modules/printReport";
-import * as printReportSections from "../../../../src/modules/gitStatus/report/printReportSections";
+import { findAllProjects, findGitStatusSmall } from "../../src/modules/findGitProjects";
+import * as gitStatus from "../../src/modules/gitStatus";
+import printReport from "../../src/modules/printReport";
+import * as printReportSections from "../../src/modules/gitStatus/report/printReportSections";
 import fs from "fs";
 import { mocked } from "ts-jest/utils";
 
-jest.mock("../../../../src/modules/gitStatus");
-jest.mock("../../../../src/modules/printReport");
-jest.mock("../../../../src/modules/gitStatus/report/printReportSections");
+jest.mock("../../src/modules/gitStatus");
+jest.mock("../../src/modules/printReport");
+jest.mock("../../src/modules/gitStatus/report/printReportSections");
 jest.mock("fs");
 const gitStatusMock = mocked(gitStatus);
 const printReportMock = mocked(printReport);

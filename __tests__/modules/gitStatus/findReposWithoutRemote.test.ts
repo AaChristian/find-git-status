@@ -1,6 +1,6 @@
 const {
   findReposWithoutRemote
-} = require("../../../../../src/modules/gitStatus");
+} = require("../../../src/modules/gitStatus");
 const { exec } = require("child_process");
 
 jest.mock("child_process");
@@ -66,5 +66,5 @@ describe("findReposWithoutRemote", () => {
     });
   });
 
-  test("should ", () => {});
+  test("should ", () => { });
 });

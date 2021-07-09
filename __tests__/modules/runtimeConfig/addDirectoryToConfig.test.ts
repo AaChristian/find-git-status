@@ -1,10 +1,10 @@
 const mockFs = require("mock-fs");
 import fs from "fs";
-import { addDirectoryToConfig } from "../../../../../src/modules/runtimeConfig";
-import * as helpers from "../../../../../src/helpers";
+import { addDirectoryToConfig } from "../../../src/modules/runtimeConfig";
+import * as helpers from "../../../src/helpers";
 import { mocked } from "ts-jest/utils";
 
-jest.mock("../../../../../src/helpers");
+jest.mock("../../../src/helpers");
 const { createConfigIfNotExist } = mocked(helpers);
 
 let config: any

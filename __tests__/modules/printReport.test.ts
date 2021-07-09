@@ -1,8 +1,8 @@
-import printReport from "../../../../src/modules/printReport";
-import * as reportSections from "../../../../src/modules/gitStatus/report/printReportSections";
+import printReport from "../../src/modules/printReport";
+import * as reportSections from "../../src/modules/gitStatus/report/printReportSections";
 import { mocked } from "ts-jest/utils";
 
-jest.mock("../../../../src/modules/gitStatus/report/printReportSections");
+jest.mock("../../src/modules/gitStatus/report/printReportSections");
 const { printInfoSmall, printBasicSection, printChangedRepos } = mocked(reportSections);
 
 describe("printReport", () => {

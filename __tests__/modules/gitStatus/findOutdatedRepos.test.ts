@@ -1,4 +1,4 @@
-const { findChangedRepos } = require("../../../../../src/modules/gitStatus");
+const { findChangedRepos } = require("../../../src/modules/gitStatus");
 const { exec } = require("promisify-child-process");
 
 jest.mock("promisify-child-process");

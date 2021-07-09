@@ -1,7 +1,7 @@
 const {
   addReposToIgnoreList
-} = require("../../../../../src/modules/gitStatus");
-const globalConfig = require("../../../../../src/globalConfig");
+} = require("../../../src/modules/gitStatus");
+const globalConfig = require("../../../src/globalConfig");
 
 describe("addReposToIgnoreList", () => {
   test("should add repos to ignore list", () => {

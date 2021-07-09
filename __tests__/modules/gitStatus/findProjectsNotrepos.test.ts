@@ -1,8 +1,8 @@
 const mockFs = require("mock-fs");
 const {
   findProjectsNotRepos
-} = require("../../../../../src/modules/gitStatus");
-const globalConfig = require("../../../../../src/globalConfig");
+} = require("../../../src/modules/gitStatus");
+const globalConfig = require("../../../src/globalConfig");
 
 beforeEach(() => {
   mockFs.mock();

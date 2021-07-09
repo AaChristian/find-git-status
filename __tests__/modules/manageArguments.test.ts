@@ -1,14 +1,14 @@
-import { isFirstRealArgumentSet, isSubstringInArgumentArray, processArguments } from "../../../../src/modules/manageArguments";
-import addDirectoryToConfig from "../../../../src/modules/runtimeConfig/addDirectoryToConfig";
-import printHelp from "../../../../src/modules/runtimeConfig/printHelp";
-import * as helpers from "../../../../src/helpers";
-import * as findGitProjects from "../../../../src/modules/findGitProjects";
+import { isFirstRealArgumentSet, isSubstringInArgumentArray, processArguments } from "../../src/modules/manageArguments";
+import addDirectoryToConfig from "../../src/modules/runtimeConfig/addDirectoryToConfig";
+import printHelp from "../../src/modules/runtimeConfig/printHelp";
+import * as helpers from "../../src/helpers";
+import * as findGitProjects from "../../src/modules/findGitProjects";
 import { mocked } from "ts-jest/utils";
 
-jest.mock("../../../../src/modules/runtimeConfig/addDirectoryToConfig");
-jest.mock("../../../../src/modules/runtimeConfig/printHelp");
-jest.mock("../../../../src/helpers");
-jest.mock("../../../../src/modules/findGitProjects");
+jest.mock("../../src/modules/runtimeConfig/addDirectoryToConfig");
+jest.mock("../../src/modules/runtimeConfig/printHelp");
+jest.mock("../../src/helpers");
+jest.mock("../../src/modules/findGitProjects");
 const addDirectoryToConfigMock = mocked(addDirectoryToConfig);
 const printHelpMock = mocked(printHelp);
 const helpersMock = mocked(helpers);
