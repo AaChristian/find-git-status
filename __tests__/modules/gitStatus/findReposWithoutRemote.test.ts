@@ -1,9 +1,9 @@
-const {
-  findReposWithoutRemote
-} = require("../../../src/modules/gitStatus");
-const { exec } = require("child_process");
+import { findReposWithoutRemote } from "../../../src/modules/gitStatus";
+import childProcess, { ChildProcess, ExecException } from "child_process";
+import { mocked } from "ts-jest/utils";
 
 jest.mock("child_process");
+const { exec } = mocked(childProcess) as any;
 
 beforeEach(() => {
   // Reset mock so that mockResolvedValueOnce works correctly
@@ -14,7 +14,7 @@ describe("findReposWithoutRemote", () => {
   test("should return empty array if no repositories is given", () => {
     const repositories = [];
 
-    exec.mockImplementation((cmd, opt, cb) => cb(null, "test", null));
+    exec.mockImplementation((cmd, opt, cb) => cb(null, "test", undefined));
 
     return findReposWithoutRemote(repositories).then(result => {
       expect(result).toEqual([]);

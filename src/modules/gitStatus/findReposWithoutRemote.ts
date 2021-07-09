@@ -1,6 +1,5 @@
 import { GitProject } from "../../types";
-
-const { exec } = require("child_process");
+import { exec } from "child_process";
 
 /**
  * Find which repositories in a list that does not have a remote URL

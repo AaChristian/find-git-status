@@ -1,7 +1,9 @@
-const { findChangedRepos } = require("../../../src/modules/gitStatus");
-const { exec } = require("promisify-child-process");
+import { findChangedRepos } from "../../../src/modules/gitStatus";
+import * as promisifyChildProcess from "promisify-child-process";
+import { mocked } from "ts-jest/utils";
 
 jest.mock("promisify-child-process");
+const { exec } = mocked(promisifyChildProcess);
 
 beforeEach(() => {
   // Reset mock so that mockResolvedValueOnce works correctly

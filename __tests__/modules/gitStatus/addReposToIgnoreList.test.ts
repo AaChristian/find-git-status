@@ -1,7 +1,5 @@
-const {
-  addReposToIgnoreList
-} = require("../../../src/modules/gitStatus");
-const globalConfig = require("../../../src/globalConfig");
+import { addReposToIgnoreList } from "../../../src/modules/gitStatus";
+import * as globalConfig from "../../../src/globalConfig";
 
 describe("addReposToIgnoreList", () => {
   test("should add repos to ignore list", () => {
@@ -19,9 +17,10 @@ describe("addReposToIgnoreList", () => {
         );
         expect(newGlobalConfig.ignoreDirs).toEqual(expectedNewIgnoreDirs);
 
-        globalConfig.ignoreDirs = expectedNewIgnoreDirs;
-
-        expect(newGlobalConfig).toEqual(globalConfig);
+        expect(newGlobalConfig).toEqual({
+          ...globalConfig,
+          ignoreDirs: expectedNewIgnoreDirs
+        });
       }
     );
   });

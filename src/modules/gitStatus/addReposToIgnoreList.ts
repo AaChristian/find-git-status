@@ -7,7 +7,7 @@ import { GitProject, GlobalConfig } from "../../types";
  * @returns {Promise<GlobalConfig>} Returns the globalConfig with the updated ignoreDirs
  */
 const addReposToIgnoreList = (
-  repositories: Array<GitProject>,
+  repositories: string[],
   globalConfig: GlobalConfig
 ): Promise<GlobalConfig> => {
   return new Promise<GlobalConfig>((resolve, reject) => {

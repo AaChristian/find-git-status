@@ -1,8 +1,6 @@
 const mockFs = require("mock-fs");
-const {
-  findProjectsNotRepos
-} = require("../../../src/modules/gitStatus");
-const globalConfig = require("../../../src/globalConfig");
+import { findProjectsNotRepos } from "../../../src/modules/gitStatus";
+import * as globalConfig from "../../../src/globalConfig";
 
 beforeEach(() => {
   mockFs.mock();
@@ -20,14 +18,14 @@ const repositories = [
 describe("findProjectsNotRepos", () => {
   test("should return empty array if no arguments is given", () => {
     expect.assertions(1);
-    return findProjectsNotRepos().catch(error => {
+    return findProjectsNotRepos(undefined, undefined, undefined).catch(error => {
       expect(error).toMatch("Missing arguments");
     });
   });
 
   test("should return empty array if only two is given", () => {
     expect.assertions(1);
-    return findProjectsNotRepos([], "dir1").catch(error => {
+    return findProjectsNotRepos(undefined, [], "dir1").catch(error => {
       expect(error).toMatch("Missing arguments");
     });
   });
