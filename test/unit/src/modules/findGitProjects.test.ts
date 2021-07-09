@@ -1,25 +1,33 @@
-const {
-  findAllProjects,
-  findGitStatusSmall
-} = require("../../../../src/modules/findGitProjects");
-const gitStatusModules = require("../../../../src/modules/gitStatus");
-const printReport = require("../../../../src/modules/printReport");
-const printReportSections = require("../../../../src/modules/gitStatus/report/printReportSections");
-const fs = require("fs");
+import { findAllProjects, findGitStatusSmall } from "../../../../src/modules/findGitProjects";
+import * as gitStatus from "../../../../src/modules/gitStatus";
+import printReport from "../../../../src/modules/printReport";
+import * as printReportSections from "../../../../src/modules/gitStatus/report/printReportSections";
+import fs from "fs";
+import { mocked } from "ts-jest/utils";
 
 jest.mock("../../../../src/modules/gitStatus");
 jest.mock("../../../../src/modules/printReport");
 jest.mock("../../../../src/modules/gitStatus/report/printReportSections");
 jest.mock("fs");
+const gitStatusMock = mocked(gitStatus);
+const printReportMock = mocked(printReport);
+const printReportSectionsMock = mocked(printReportSections);
 
 beforeEach(() => {
-  gitStatusModules.addReposToIgnoreList.mockResolvedValue([]);
-  gitStatusModules.findAllGitRepos.mockResolvedValue([]);
-  gitStatusModules.findProjectsNotRepos.mockResolvedValue([]);
-  gitStatusModules.findChangedRepos.mockResolvedValue([]);
-  gitStatusModules.findReposWithoutRemote.mockResolvedValue([]);
+  gitStatusMock.addReposToIgnoreList.mockResolvedValue({
+    isProjectCheck: [],
+    ignoreDirs: [],
+    globOptions: {
+      ignore: [],
+      dot: true,
+    }
+  });
+  gitStatusMock.findAllGitRepos.mockResolvedValue([]);
+  gitStatusMock.findProjectsNotRepos.mockResolvedValue([]);
+  gitStatusMock.findChangedRepos.mockResolvedValue([]);
+  gitStatusMock.findReposWithoutRemote.mockResolvedValue([]);
 
-  printReport.mockReturnValue();
+  printReportMock.mockReturnValue();
 });
 
 afterEach(() => {
@@ -35,7 +43,7 @@ describe("findAllProjects", () => {
 
     expect.assertions(1);
     return findAllProjects().then(() => {
-      expect(gitStatusModules.addReposToIgnoreList.mock.calls.length).toBe(1);
+      expect(gitStatusMock.addReposToIgnoreList.mock.calls.length).toBe(1);
     });
   });
 
@@ -46,7 +54,7 @@ describe("findAllProjects", () => {
 
     expect.assertions(1);
     return findAllProjects().then(() => {
-      expect(gitStatusModules.findAllGitRepos.mock.calls.length).toBe(1);
+      expect(gitStatusMock.findAllGitRepos.mock.calls.length).toBe(1);
     });
   });
 
@@ -57,7 +65,7 @@ describe("findAllProjects", () => {
 
     expect.assertions(1);
     return findAllProjects().then(() => {
-      expect(gitStatusModules.findProjectsNotRepos.mock.calls.length).toBe(1);
+      expect(gitStatusMock.findProjectsNotRepos.mock.calls.length).toBe(1);
     });
   });
 
@@ -68,7 +76,7 @@ describe("findAllProjects", () => {
 
     expect.assertions(1);
     return findAllProjects().then(() => {
-      expect(gitStatusModules.findChangedRepos.mock.calls.length).toBe(1);
+      expect(gitStatusMock.findChangedRepos.mock.calls.length).toBe(1);
     });
   });
 
@@ -79,7 +87,7 @@ describe("findAllProjects", () => {
 
     expect.assertions(1);
     return findAllProjects().then(() => {
-      expect(gitStatusModules.findReposWithoutRemote.mock.calls.length).toBe(1);
+      expect(gitStatusMock.findReposWithoutRemote.mock.calls.length).toBe(1);
     });
   });
 
@@ -90,7 +98,7 @@ describe("findAllProjects", () => {
 
     expect.assertions(1);
     return findAllProjects().then(() => {
-      expect(printReport.mock.calls.length).toBe(1);
+      expect(printReportMock.mock.calls.length).toBe(1);
     });
   });
 });
@@ -103,7 +111,7 @@ describe("findGitStatusSmall", () => {
 
     expect.assertions(1);
     return findGitStatusSmall().then(() => {
-      expect(gitStatusModules.findAllGitRepos.mock.calls.length).toBe(1);
+      expect(gitStatusMock.findAllGitRepos.mock.calls.length).toBe(1);
     });
   });
 
@@ -114,7 +122,7 @@ describe("findGitStatusSmall", () => {
 
     expect.assertions(1);
     return findGitStatusSmall().then(() => {
-      expect(gitStatusModules.findChangedRepos.mock.calls.length).toBe(1);
+      expect(gitStatusMock.findChangedRepos.mock.calls.length).toBe(1);
     });
   });
 
@@ -125,7 +133,7 @@ describe("findGitStatusSmall", () => {
 
     expect.assertions(1);
     return findGitStatusSmall().then(() => {
-      expect(printReportSections.printReposStatus.mock.calls.length).toBe(1);
+      expect(printReportSectionsMock.printReposStatus.mock.calls.length).toBe(1);
     });
   });
 });

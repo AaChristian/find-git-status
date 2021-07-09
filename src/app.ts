@@ -25,6 +25,10 @@ const start = async () => {
   }
 };
 
-start();
+if (process.env.NODE_ENV !== "testing") {
+  start();
+}
 
-// export default start;
+export default start;
+
+

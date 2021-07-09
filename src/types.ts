@@ -6,7 +6,7 @@ export interface GitProject {
 
 export interface Option {
   valid: string[];
-  description: string;
+  description?: string;
 }
 
 export interface UserOptions {

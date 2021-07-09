@@ -21,6 +21,11 @@ const findAllGitRepos = (
       return;
     }
 
+    if (directory.length === 0) {
+      resolve([])
+      return;
+    }
+
     const repositories: any = [];
 
     // Search the directory and subdirectories for git repositories

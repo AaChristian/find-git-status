@@ -10,7 +10,7 @@ const configPath = path.resolve(__dirname, "../../config.json");
  * @param {any} arg The argument to check
  * @returns {boolean}
  */
-export const isFirstRealArgumentSet = arg => {
+export const isFirstRealArgumentSet = (arg: string) => {
   return typeof arg === "string" && arg !== "";
 };
 
@@ -37,7 +37,7 @@ export const processArguments = (userArguments): Promise<void> => {
        * Print help
        */
       if (options.help.valid.includes(userArguments[0])) {
-        await printHelp(options);
+        printHelp(options);
         resolve();
         return;
       }

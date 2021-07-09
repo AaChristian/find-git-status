@@ -1,7 +1,6 @@
 const mockedFs = require("mock-fs");
-import { findAllGitRepos } from "../../../../../src/modules/gitStatus";
 import { globOptions } from "../../../../../src/globalConfig";
-import { mocked } from "ts-jest/utils";
+import { findAllGitRepos } from "../../../../../src/modules/gitStatus";
 
 beforeEach(() => {
   mockedFs.mock();

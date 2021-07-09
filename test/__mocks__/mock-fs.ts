@@ -2,8 +2,7 @@
  * This mocks the mock-fs package to allow console.logs in the code.
  */
 
-const fsMock = jest.genMockFromModule("mock-fs") as any;
-// import * as fsMock from "mock-fs";
+const fsMock = require("mock-fs");
 
 let logsTemp = [];
 let logMock;

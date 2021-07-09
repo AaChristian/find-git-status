@@ -1,6 +1,5 @@
+import glob from "glob";
 import { GitProject } from "../../types";
-
-const glob = require("glob");
 
 /**
  * Find all potential projects that are not git repositories.

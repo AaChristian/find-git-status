@@ -24,7 +24,7 @@ export const createConfigIfNotExist = (path: string): Promise<void> => {
  * @returns {number} The length of the longest value
  */
 export const findLongestValue = (
-  array: Array<GitProject>,
+  array: Array<object>,
   property: string
 ): number => {
   let length = 0;

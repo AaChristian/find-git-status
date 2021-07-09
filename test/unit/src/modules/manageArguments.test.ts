@@ -1,17 +1,19 @@
-const {
-  isFirstRealArgumentSet,
-  isSubstringInArgumentArray,
-  processArguments
-} = require("../../../../src/modules/manageArguments");
-const addDirectoryToConfig = require("../../../../src/modules/runtimeConfig/addDirectoryToConfig");
-const printHelp = require("../../../../src/modules/runtimeConfig/printHelp");
-const helpers = require("../../../../src/helpers");
-const findGitProjects = require("../../../../src/modules/findGitProjects");
+import { isFirstRealArgumentSet, isSubstringInArgumentArray, processArguments } from "../../../../src/modules/manageArguments";
+import addDirectoryToConfig from "../../../../src/modules/runtimeConfig/addDirectoryToConfig";
+import printHelp from "../../../../src/modules/runtimeConfig/printHelp";
+import * as helpers from "../../../../src/helpers";
+import * as findGitProjects from "../../../../src/modules/findGitProjects";
+import { mocked } from "ts-jest/utils";
 
 jest.mock("../../../../src/modules/runtimeConfig/addDirectoryToConfig");
 jest.mock("../../../../src/modules/runtimeConfig/printHelp");
 jest.mock("../../../../src/helpers");
 jest.mock("../../../../src/modules/findGitProjects");
+const addDirectoryToConfigMock = mocked(addDirectoryToConfig);
+const printHelpMock = mocked(printHelp);
+const helpersMock = mocked(helpers);
+const findGitProjectsMock = mocked(findGitProjects);
+
 
 describe("isFirstRealArgumentSet", () => {
   test("should return true", () => {
@@ -19,7 +21,7 @@ describe("isFirstRealArgumentSet", () => {
   });
 
   test("should return false if argument is not given", () => {
-    expect(isFirstRealArgumentSet()).toBe(false);
+    expect(isFirstRealArgumentSet(undefined)).toBe(false);
   });
 
   test("should return false if argument is an empty string", () => {
@@ -29,38 +31,38 @@ describe("isFirstRealArgumentSet", () => {
 
 describe("processArguments", () => {
   test("should call addDirectoryToConfig", () => {
-    addDirectoryToConfig.mockResolvedValue("test");
+    addDirectoryToConfigMock.mockResolvedValue();
 
     expect.assertions(1);
     return processArguments(["--config-add"]).then(() => {
-      expect(addDirectoryToConfig.mock.calls.length).toBe(1);
+      expect(addDirectoryToConfigMock.mock.calls.length).toBe(1);
     });
   });
 
   test("should call createConfigIfNotExist", () => {
-    helpers.createConfigIfNotExist.mockResolvedValue();
+    helpersMock.createConfigIfNotExist.mockResolvedValue();
 
     expect.assertions(1);
     return processArguments(["--init"]).then(() => {
-      expect(helpers.createConfigIfNotExist.mock.calls.length).toBe(1);
+      expect(helpersMock.createConfigIfNotExist.mock.calls.length).toBe(1);
     });
   });
 
   test("should call findGitStatusSmall", () => {
-    findGitProjects.findGitStatusSmall.mockResolvedValue();
+    findGitProjectsMock.findGitStatusSmall.mockResolvedValue();
 
     expect.assertions(1);
     return processArguments(["--git-status"]).then(() => {
-      expect(findGitProjects.findGitStatusSmall.mock.calls.length).toBe(1);
+      expect(findGitProjectsMock.findGitStatusSmall.mock.calls.length).toBe(1);
     });
   });
 
   test("should call printHelp", () => {
-    printHelp.mockResolvedValue();
+    // printHelpMock.mockResolvedValue();
 
     expect.assertions(1);
     return processArguments(["--help"]).then(() => {
-      expect(printHelp.mock.calls.length).toBe(1);
+      expect(printHelpMock.mock.calls.length).toBe(1);
     });
   });
 });

@@ -1,13 +1,14 @@
 const mockFs = require("mock-fs");
-const fs = require("fs");
-const {
-  addDirectoryToConfig
-} = require("../../../../../src/modules/runtimeConfig");
-const { createConfigIfNotExist } = require("../../../../../src/helpers");
+import fs from "fs";
+import { addDirectoryToConfig } from "../../../../../src/modules/runtimeConfig";
+import * as helpers from "../../../../../src/helpers";
+import { mocked } from "ts-jest/utils";
 
 jest.mock("../../../../../src/helpers");
+const { createConfigIfNotExist } = mocked(helpers);
 
-let config, configPath, dirToAdd;
+let config: any
+let configPath: string, dirToAdd: string;
 
 beforeEach(() => {
   // Set default variables
@@ -33,7 +34,7 @@ describe("addDirectoryToConfig", () => {
 
     expect.assertions(1);
     return addDirectoryToConfig(dirToAdd, configPath).then(() => {
-      const { directories } = JSON.parse(fs.readFileSync(configPath), "utf-8");
+      const { directories } = JSON.parse(fs.readFileSync(configPath, "utf-8"));
 
       expect(directories).toEqual([dirToAdd]);
     });
