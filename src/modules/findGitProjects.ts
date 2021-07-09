@@ -32,10 +32,8 @@ export const findAllProjects = (): Promise<void> => {
         globalConfig.globOptions
       );
 
-      console.log("1251654146161");
-
       // Add repos to ignore list, return the updated config
-      globalConfig = await addReposToIgnoreList(reposInDir, globalConfig);
+      globalConfig = await addReposToIgnoreList(reposInDir.map(r => r.name), globalConfig);
 
       // Find protential projects that arent git repositories
       const projectButNotRepoInDir = await findProjectsNotRepos(
