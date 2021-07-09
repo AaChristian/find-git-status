@@ -1,5 +1,4 @@
-[![CircleCI](https://img.shields.io/circleci/project/github/Gullo89/find-git-status.svg)](https://circleci.com/gh/Gullo89/find-git-status)
-[![codecov](https://img.shields.io/codecov/c/github/Gullo89/find-git-status/master.svg?label=coverage)](https://codecov.io/gh/Gullo89/find-git-status)
+![Test workflow](https://github.com/AaChristian/find-git-status/actions/workflows/test.yml/badge.svg)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
 # Find Git Status
