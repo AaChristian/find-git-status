@@ -6,10 +6,10 @@
   "scripts": {
     "start": "node dist/app",
     "build": "node_modules/.bin/tsc",
-    "build-watch": "node_modules/.bin/tsc --watch",
+    "build:watch": "node_modules/.bin/tsc --watch",
     "test": "npx jest",
-    "test-watch": "npx jest --watchAll",
-    "test-coverage": "npx jest --coverage"
+    "test:watch": "npx jest --watchAll",
+    "test:coverage": "npx jest --coverage"
   },
   "author": "",
   "license": "ISC",
